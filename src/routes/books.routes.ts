@@ -5,6 +5,7 @@ import { getBooks } from "../controllers/books/get-books";
 import { updatedBooks } from "../controllers/books/put-books-by-id";
 
 export const registerFoodRoutes = (app: Hono) => {
+  app.get("/", getBooks);
   app.get("/books", getBooks);
   app.get("/books/:id", getBooksById);
   app.post("/books", createBook);
