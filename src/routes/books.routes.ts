@@ -5,9 +5,9 @@ import { getBooks } from "../controllers/books/get-books";
 import { updatedBooks } from "../controllers/books/put-books-by-id";
 import { deleteBook } from "../controllers/books/delete-books-by-id";
 import { getInit } from "../controllers/books/get-init";
-import { Bindings } from "..";
+import type { Bindings } from "../types";
 
-export const registerFoodRoutes = (app: Hono<{ Bindings: Bindings }>) => {
+export const registerBooksRoutes = (app: Hono<{ Bindings: Bindings }>) => {
   app.get("/", getInit);
   app.get("/books", getBooks);
   app.get("/books/:id", getBooksById);

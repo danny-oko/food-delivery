@@ -1,20 +1,15 @@
 import { Hono } from "hono";
-import { registerFoodRoutes } from "./routes/books.routes";
+import { registerBooksRoutes } from "./routes/books.routes";
 import { D1Database } from "@cloudflare/workers-types";
-import { drizzle } from "drizzle-orm/d1";
+import type { Bindings } from "./types";
+import { registerFoodsRoutes } from "./routes/foods.routes";
 
-export type Bindings = {
-  FOOD_DELIVERY: D1Database;
-};
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-registerFoodRoutes(app);
+// registerBooksRoutes(app);
+registerFoodsRoutes(app)
 
 export default {
-  // async fetch(request: Request, env: Env) {
-  //   const db = drizzle(env.FOOD_DELIVERY);
-  //   // app.fetch;
-  // },
   fetch: app.fetch,
 };

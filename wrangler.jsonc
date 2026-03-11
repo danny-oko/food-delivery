@@ -9,7 +9,7 @@
       "binding": "FOOD_DELIVERY",
       "database_name": "food_delivery",
       "database_id": "4e408754-db4c-4123-bdd2-9c5e618596f8",
-      "migrations_dir": "src",
+      "migrations_dir": "drizzle",
     },
   ],
   // "compatibility_flags": [
