@@ -2,7 +2,16 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "food-delivery",
   "main": "src/index.ts",
-  "compatibility_date": "2026-03-09"
+  "compatibility_date": "2026-03-09",
+
+  "d1_databases": [
+    {
+      "binding": "FOOD_DELIVERY",
+      "database_name": "food_delivery",
+      "database_id": "4e408754-db4c-4123-bdd2-9c5e618596f8",
+      "migrations_dir": "src",
+    },
+  ],
   // "compatibility_flags": [
   //   "nodejs_compat"
   // ],
@@ -19,13 +28,6 @@
   //   {
   //     "binding": "MY_BUCKET",
   //     "bucket_name": "my-bucket"
-  //   }
-  // ],
-  // "d1_databases": [
-  //   {
-  //     "binding": "MY_DB",
-  //     "database_name": "my-database",
-  //     "database_id": ""
   //   }
   // ],
   // "ai": {
