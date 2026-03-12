@@ -7,7 +7,8 @@ export const deleteFood = async (c: Context) => {
   const id = Number(c.req.param("id"));
   if (isNaN(id)) return c.json({ error: "Invalid ID" }, 400);
 
-  const db = getDrizzleDb(c.env.FOOD_DELIVERY);
+  const d1 = c.env.FOOD_DELIVERY;
+  const db = getDrizzleDb(d1);
   const result = await db
     .delete(foodsTable)
     .where(eq(foodsTable.id, id))

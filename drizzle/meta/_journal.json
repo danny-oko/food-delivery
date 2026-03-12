@@ -15,6 +15,13 @@
       "when": 1773202716995,
       "tag": "0001_safe_black_crow",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1773287330706,
+      "tag": "0002_abnormal_vapor",
+      "breakpoints": true
     }
   ]
 }
