@@ -3,12 +3,7 @@ import { getDrizzleDb } from "../../db/db";
 import { foodsTable } from "../../db/schema/food";
 
 export const getFoods = async (c: Context) => {
-  const d1 = c.env.FOOD_DELIVERY;
-  const db = getDrizzleDb(d1);
-
-  const foods = await db.select().from(foodsTable);
-
-  return c.json({
-    foods_found: foods,
-  });
+  const db = getDrizzleDb(c.env.FOOD_DELIVERY);
+  const results = await db.select().from(foodsTable);
+  return c.json({ foods: results });
 };
