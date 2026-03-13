@@ -1,6 +1,6 @@
 import { Context } from "hono";
 import { getDrizzleDb } from "../../db/db";
-import { foodsTable } from "../../db/schema/food";
+import { Foodstable } from "../../db/schema/foods";
 
 // export const postFood = async (c: Context) => {
 //   const body = await c.req.json();
@@ -22,14 +22,14 @@ import { foodsTable } from "../../db/schema/food";
 
 export const postFood = async (c: Context) => {
   const body = await c.req.json();
-  const { name, description, price, category } = body;
+  const { foodName, price, image, ingredients, categoryId } = body;
 
-  if (!name || !price) return c.json({ error: "failed" });
+  if (!foodName || !price) return c.json({ error: "failed" });
 
   const d1 = c.env.FOOD_DELIVERY; const db = getDrizzleDb(d1);
   const result = await db
-    .insert(foodsTable)
-    .values({ name, description, price, category })
+    .insert(Foodstable)
+    .values({ foodName, price, image, ingredients, categoryId })
     .returning();
 
   return c.json({

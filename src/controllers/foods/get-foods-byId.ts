@@ -1,7 +1,7 @@
 import { Context } from "hono";
 import { eq } from "drizzle-orm";
 import { getDrizzleDb } from "../../db/db";
-import { foodsTable } from "../../db/schema/food";
+import { foodsTable } from "../../db/schema/foods";
 
 export const getFoodById = async (c: Context) => {
   const id = Number(c.req.param("id"));

@@ -22,6 +22,27 @@
       "when": 1773287330706,
       "tag": "0002_abnormal_vapor",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1773368613247,
+      "tag": "0003_medical_xavin",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1773368929620,
+      "tag": "0004_low_bloodaxe",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1773370469705,
+      "tag": "0005_mean_luminals",
+      "breakpoints": true
     }
   ]
 }

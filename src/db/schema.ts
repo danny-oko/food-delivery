@@ -1,2 +1,2 @@
-export * from "./schema/food";
-// export * from "./schema/user.schema";
+export * from "./schema/foods";
+export * from "./schema/categories.type";
