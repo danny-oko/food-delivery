@@ -1,7 +1,7 @@
 import { Context } from "hono";
 import { eq } from "drizzle-orm";
 import { getDrizzleDb } from "../../db/db";
-import { foodsTable } from "../../db/schema/foods";
+import { FoodsTable } from "../../db/schema/foods";
 
 export const deleteFood = async (c: Context) => {
   const id = Number(c.req.param("id"));
@@ -10,8 +10,8 @@ export const deleteFood = async (c: Context) => {
   const d1 = c.env.FOOD_DELIVERY;
   const db = getDrizzleDb(d1);
   const result = await db
-    .delete(foodsTable)
-    .where(eq(foodsTable.id, id))
+    .delete(FoodsTable)
+    .where(eq(FoodsTable.id, id))
     .returning();
 
   if (!result.length) return c.json({ error: "Food not found" }, 404);
