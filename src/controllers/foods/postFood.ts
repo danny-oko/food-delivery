@@ -4,7 +4,7 @@ import { foodsTable } from "../../db/schema";
 
 export const postFood = async (c: Context) => {
   const body = await c.req.json();
-  const { name, price, category } = body;
+  const { name, price, categoryId } = body;
 
   if (!name || !price) {
     return c.json(
@@ -19,10 +19,10 @@ export const postFood = async (c: Context) => {
 
   const result = await db
     .insert(foodsTable)
-    .values({ name, price, category })
+    .values({ name, price, categoryId })
     .returning();
 
-  const foods = await db.select().from(foodsTable); 
+  const foods = await db.select().from(foodsTable);
 
   return c.json(
     {

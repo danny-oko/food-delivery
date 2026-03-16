@@ -6,12 +6,12 @@ import { eq } from "drizzle-orm";
 
 export const updateFood = async (c: Context<{ Bindings: Bindings }>) => {
   const id = c.req.param("id");
-  const { name, price, category } = await c.req.json();
+  const { name, price, categoryId } = await c.req.json();
   const db = getDb(c);
 
   const res = await db
     .update(foodsTable)
-    .set({ name, price, category })
+    .set({ name, price, categoryId })
     .where(eq(foodsTable.id, Number(id)))
     .returning();
 
