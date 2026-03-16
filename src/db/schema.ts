@@ -1,1 +1,1 @@
-export * from "./schema/foods.types";
+export * from "./schema/foods.schema";

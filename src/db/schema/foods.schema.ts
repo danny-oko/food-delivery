@@ -1,11 +1,12 @@
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
+import { foodCategoriesTable } from "./foodCategory.schema";
 
 export const foodsTable = sqliteTable("foods_table", {
   id: int().primaryKey({ autoIncrement: true }),
   name: text().notNull(),
   price: text().notNull(),
-  category: text(),
+  categoryId: text(),
   createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
     () => new Date(),
   ),
@@ -13,3 +14,10 @@ export const foodsTable = sqliteTable("foods_table", {
     .$defaultFn(() => new Date())
     .$onUpdateFn(() => new Date()),
 });
+
+export const foodsRelations = relations(foodsTable, ({ one }) => ({
+  category: one(foodCategoriesTable, {
+    fields: [foodsTable.categoryId],
+    references: [foodCategoriesTable.id],
+  }),
+}));
