@@ -13,6 +13,8 @@ export const getFoodsById = async (c: Context) => {
     .from(foodsTable)
     .where(eq(foodsTable.id, Number(id)));
 
+  console.log(food);
+  
   c.json(
     {
       food_found: food,

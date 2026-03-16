@@ -1,7 +1,6 @@
 import { Context } from "hono";
 import { getDb } from "../../lib/db";
 import { foodsTable } from "../../db/schema";
-import { eq } from "drizzle-orm";
 
 export const postFood = async (c: Context) => {
   const body = await c.req.json();
@@ -17,14 +16,18 @@ export const postFood = async (c: Context) => {
   }
 
   const db = getDb(c);
+
   const result = await db
-    .update(foodsTable)
-    .set({ name, price, category })
+    .insert(foodsTable)
+    .values({ name, price, category })
     .returning();
+
+  const foods = await db.select().from(foodsTable); 
 
   return c.json(
     {
       food_created: result,
+      foods: foods,
     },
     201,
   );
