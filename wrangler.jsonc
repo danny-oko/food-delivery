@@ -1,0 +1,41 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "food",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-03-16",
+  // "node_compat": "true",
+
+  "d1_databases": [
+    {
+      "binding": "FOOD_DELIVERY",
+      "database_name": "food",
+      "database_id": "894665f6-e077-4279-a70b-ef5e96e9dffb",
+      "migrations_dir": "drizzle",
+    },
+  ],
+  // "compatibility_flags": [
+  //   "nodejs_compat"
+  // ],
+  // "vars": {
+  //   "MY_VAR": "my-variable"
+  // },
+  // "kv_namespaces": [
+  //   {
+  //     "binding": "MY_KV_NAMESPACE",
+  //     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  //   }
+  // ],
+  // "r2_buckets": [
+  //   {
+  //     "binding": "MY_BUCKET",
+  //     "bucket_name": "my-bucket"
+  //   }
+  // ],
+  // "ai": {
+  //   "binding": "AI"
+  // },
+  // "observability": {
+  //   "enabled": true,
+  //   "head_sampling_rate": 1
+  // }
+}
