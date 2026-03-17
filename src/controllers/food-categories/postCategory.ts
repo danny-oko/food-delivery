@@ -5,25 +5,15 @@ import { foodCategoriesTable } from "../../db/schema";
 export const createCategory = async (c: Context) => {
   const { name } = await c.req.json();
 
+  if (!name) {
+    return c.json({ error: "Name is required" }, 400);
+  }
+
   const db = getDb(c);
-
-  const categories = await db.query.foodCategoriesTable.findMany({
-    with: {
-      foods: true,
-    },
-  });
-
   const result = await db
     .insert(foodCategoriesTable)
     .values({ name })
     .returning();
 
-  return c.json(
-    {
-      message: "Success!",
-      new_food_category: result,
-      categories: categories,
-    },
-    201,
-  );
+  return c.json({ message: "Success!", new_category: result[0] }, 201);
 };

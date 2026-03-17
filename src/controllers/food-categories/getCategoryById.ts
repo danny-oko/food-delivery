@@ -1,10 +1,10 @@
-import { Hono, Context } from "hono";
+import { Context } from "hono";
 import { getDb } from "../../lib/db";
 import { foodCategoriesTable } from "../../db/schema";
 import { eq } from "drizzle-orm";
 
 export const getCategoryById = async (c: Context) => {
-  const id = c.req.param;
+  const id = c.req.param("id");
 
   const db = getDb(c);
 
@@ -15,10 +15,13 @@ export const getCategoryById = async (c: Context) => {
     },
   });
 
+  if (!result) {
+    return c.json({ message: "Category not found" }, 404);
+  }
+
   return c.json(
     {
-      id_used: id,
-      retult: result,
+      result,
     },
     200,
   );

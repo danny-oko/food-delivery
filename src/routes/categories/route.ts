@@ -3,10 +3,12 @@ import { Bindings } from "hono/types";
 import { getCategories } from "../../controllers/food-categories/getCategories";
 import { getCategoryById } from "../../controllers/food-categories/getCategoryById";
 import { createCategory } from "../../controllers/food-categories/postCategory";
-const categoriesRoutes = new Hono<{ Bindings: Bindings }>();
+import { updateCategory } from "../../controllers/food-categories/updateCategories";
+const categoriesRoute = new Hono<{ Bindings: Bindings }>();
 
-categoriesRoutes.get("/", getCategories);
-categoriesRoutes.get(":id", getCategoryById);
-categoriesRoutes.post("/", createCategory);
+categoriesRoute.get("/", getCategories);
+categoriesRoute.get(":id", getCategoryById);
+categoriesRoute.put(":id", updateCategory);
+categoriesRoute.post("/", createCategory);
 
-export default categoriesRoutes;
+export default categoriesRoute;

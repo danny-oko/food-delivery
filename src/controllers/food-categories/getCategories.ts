@@ -5,13 +5,21 @@ import { foodCategoriesTable } from "../../db/schema";
 export const getCategories = async (c: Context) => {
   const db = getDb(c);
 
-  const results = await db.query.foodCategoriesTable.findMany({
-    with: {
-      foods: true, // ← includes all related foods
-    },
-  });
+  const results = await db.select().from(foodCategoriesTable);
 
-  return c.json({
-    categories: results,
-  });
+  if (results.length === 0) {
+    return c.json(
+      {
+        message: "No results available",
+      },
+      200,
+    );
+  }
+
+  return c.json(
+    {
+      results: results,
+    },
+    200,
+  );
 };
