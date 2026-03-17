@@ -1,29 +1,23 @@
 import { Context } from "hono";
 import { getDb } from "../../lib/db";
-import { foodCategoriesTable } from "../../db/schema";
+import { Bindings } from "../../lib/types";
 import { eq } from "drizzle-orm";
+import { usersTable } from "../../db/schema";
 
-export const deleteCategory = async (c: Context) => {
+export const updateCategory = async (c: Context<{ Bindings: Bindings }>) => {
   const id = c.req.param("id");
-
+  const { name, email, password, age, tel } = await c.req.json();
   const db = getDb(c);
 
-  const result = await db
-    .delete(foodCategoriesTable)
-    .where(eq(foodCategoriesTable.id, Number(id)))
+  const res = await db
+    .update(usersTable)
+    .set({ name, email, password, age, tel })
+    .where(eq(usersTable.id, Number(id)))
     .returning();
 
-  if (result.length === 0) {
-    return c.json(
-      {
-        error: "Category not found",
-      },
-      404,
-    );
+  if (!res.length) {
+    return c.json({ error: "Food not found" }, 404);
   }
 
-  return c.json(
-    { message: "Category Deleted Successfully!", result: result[0] },
-    200,
-  );
+  return c.json({ updated_food: res[0] }, 200);
 };
