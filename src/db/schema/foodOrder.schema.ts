@@ -1,13 +1,13 @@
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
+import { foodOrderItems } from "./foodOrderItem";
 
 export const foodOrderTable = sqliteTable("food_order_table", {
   id: int().primaryKey({ autoIncrement: true }),
   totalPrice: text(),
-  status: text({ enum: ["pending", "calcelled", "delivered"] }).default(
+  status: text({ enum: ["pending", "cancelled", "delivered"] }).default(
     "pending",
   ),
-  // foodOrderItems:
   createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
     () => new Date(),
   ),
@@ -15,3 +15,7 @@ export const foodOrderTable = sqliteTable("food_order_table", {
     .$defaultFn(() => new Date())
     .$onUpdate(() => new Date()),
 });
+
+export const orderRelations = relations(foodOrderTable, ({ many }) => ({
+  foodOrderItem: many(foodOrderItems),
+}));
