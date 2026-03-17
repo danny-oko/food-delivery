@@ -6,7 +6,8 @@ export const foodsTable = sqliteTable("foods_table", {
   id: int().primaryKey({ autoIncrement: true }),
   name: text().notNull(),
   price: text().notNull(),
-  categoryId: text(),
+  categoryId: int(),
+  // foodOrderItems relations
   createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
     () => new Date(),
   ),
