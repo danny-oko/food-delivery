@@ -1,9 +1,9 @@
 import { Hono } from "hono";
 import { Bindings } from "hono/types";
-import { getCategories } from "../../controllers/food-categories/getCategories";
-import { getCategoryById } from "../../controllers/food-categories/getCategoryById";
-import { createCategory } from "../../controllers/food-categories/postCategory";
-import { updateCategory } from "../../controllers/food-categories/updateCategories";
+import { getCategories } from "../../controllers/food-categories/get-Categories";
+import { getCategoryById } from "../../controllers/food-categories/get-CategoryById";
+import { createCategory } from "../../controllers/food-categories/create-category";
+import { updateCategory } from "../../controllers/food-categories/update-Categories";
 const categoriesRoute = new Hono<{ Bindings: Bindings }>();
 
 categoriesRoute.get("/", getCategories);
