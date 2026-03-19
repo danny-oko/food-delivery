@@ -4,30 +4,28 @@ import { foodOrderTable } from "../../db/schema";
 import { eq } from "drizzle-orm";
 
 export const getOrdersById = async (c: Context) => {
-  const id = c.req.param("id");
-  const db = getDb(c);
+  try {
+    const id = c.req.param("id");
+    const db = getDb(c);
 
-  const orderFound = await db.query.foodOrderTable.findFirst({
-    where: (table, { eq }) => eq(table.id, Number(id)),
-    with: {
-      user: true,
-      foodOrderItem: {
-        with: {
-          food: true,
+    const orderFound = await db.query.foodOrderTable.findFirst({
+      where: (table, { eq }) => eq(table.id, Number(id)),
+      with: {
+        user: true,
+        foodOrderItem: {
+          with: {
+            food: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  if (!orderFound) {
-    return c.json({ message: "Order not found" }, 404);
+    if (!orderFound) {
+      return c.json({ message: "Order not found" }, 404);
+    }
+
+    return c.json({ message: "Success!", order: orderFound }, 200);
+  } catch (error: any) {
+    return c.json({ error: error.message }, 500);
   }
-
-  return c.json(
-    {
-      message: "Success!",
-      order: orderFound,
-    },
-    200,
-  );
 };

@@ -30,10 +30,12 @@ export const createUser = async (c: Context) => {
       },
       201,
     );
-  } catch (error) {
-    console.error("Signup Error:", error);
+  } catch (error: any) {
     return c.json(
-      { message: "Internal Server Error or User already exists" },
+      {
+        message:
+          error.message || "Internal Server Error or User already exists",
+      },
       500,
     );
   }

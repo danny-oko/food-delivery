@@ -25,6 +25,6 @@ export const updateUser = async (c: Context<{ Bindings: Bindings }>) => {
     if (error.message.includes("UNIQUE constraint failed")) {
       return c.json({ error: "Email already taken by another user" }, 409);
     }
-    return c.json({ error: "Internal Server Error" }, 500);
+    return c.json({ error: error.message || "Internal Server Error" }, 500);
   }
 };
