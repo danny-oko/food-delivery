@@ -1,6 +1,7 @@
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { relations } from "drizzle-orm";
 import { foodOrderItems } from "./foodOrderItem";
+import { usersTable } from "./users.schema";
 
 enum Status {
   PENDING = "PENDING",
@@ -11,6 +12,10 @@ enum Status {
 export const foodOrderTable = sqliteTable("food_order_table", {
   id: int().primaryKey({ autoIncrement: true }),
   totalPrice: text().notNull(),
+  userId: int("user_id")
+    .notNull()
+    .references(() => usersTable.id),
+
   status: text().default(Status.PENDING),
   createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
     () => new Date(),
@@ -20,6 +25,11 @@ export const foodOrderTable = sqliteTable("food_order_table", {
     .$onUpdate(() => new Date()),
 });
 
-export const orderRelations = relations(foodOrderTable, ({ many }) => ({
+export const orderRelations = relations(foodOrderTable, ({ one, many }) => ({
   foodOrderItem: many(foodOrderItems),
+
+  user: one(usersTable, {
+    fields: [foodOrderTable.userId],
+    references: [usersTable.id],
+  }),
 }));

@@ -1,10 +1,13 @@
 import { Context } from "hono";
 import { getDb } from "../../lib/db";
+import { foodOrderTable } from "../../db/schema";
 
 export const getOrders = async (c: Context) => {
   const db = getDb(c);
-  const orders = await db.query.foodOrderTable.findMany({
+
+  const ordersFound = await db.query.foodOrderTable.findMany({
     with: {
+      user: true,
       foodOrderItem: {
         with: {
           food: true,
@@ -12,5 +15,11 @@ export const getOrders = async (c: Context) => {
       },
     },
   });
-  return c.json({ orders: orders });
+  return c.json(
+    {
+      message: "Success!",
+      orders_found: ordersFound,
+    },
+    200,
+  );
 };

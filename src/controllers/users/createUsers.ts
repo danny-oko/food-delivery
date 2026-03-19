@@ -17,7 +17,7 @@ export const createUser = async (c: Context) => {
       .values({
         name,
         email,
-        password: password,
+        password,
         age,
         tel,
       })
