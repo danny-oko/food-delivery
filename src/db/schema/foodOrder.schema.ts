@@ -1,22 +1,27 @@
-import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { int, sqliteTable, text, real } from "drizzle-orm/sqlite-core";
 import { relations } from "drizzle-orm";
 import { foodOrderItems } from "./foodOrderItem";
 import { usersTable } from "./users.schema";
 
-enum Status {
-  PENDING = "PENDING",
-  CANCELED = "CANCELED",
-  DELIVERED = "DELIVERED",
-}
+// Better for Drizzle compatibility than standard TS enums
+export const OrderStatus = {
+  PENDING: "PENDING",
+  CANCELED: "CANCELED",
+  DELIVERED: "DELIVERED",
+} as const;
 
 export const foodOrderTable = sqliteTable("food_order_table", {
-  id: int().primaryKey({ autoIncrement: true }),
-  totalPrice: text().notNull(),
+  id: int("id").primaryKey({ autoIncrement: true }),
+
+  // Changed to real or int for better math operations later
+  totalPrice: real("total_price").notNull(),
+
   userId: int("user_id")
     .notNull()
-    .references(() => usersTable.id),
+    .references(() => usersTable.id, { onDelete: "cascade" }), // Good practice: delete orders if user is deleted
 
-  status: text().default(Status.PENDING),
+  status: text("status").default(OrderStatus.PENDING),
+
   createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
     () => new Date(),
   ),

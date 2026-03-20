@@ -1,10 +1,10 @@
 import { Hono } from "hono";
 import { Bindings } from "../../lib/types";
-import { createUser } from "../../controllers/users/create-users";
-import { getUsers } from "../../controllers/users/get-users";
-import { getUsersById } from "../../controllers/users/get-users-by-id";
-import { updateUser } from "../../controllers/users/update-users";
-import { deleteUsers } from "../../controllers/users/delete-users";
+import { createUser } from "../../controllers/users/crud/create-users";
+import { getUsers } from "../../controllers/users/crud/get-users";
+import { getUsersById } from "../../controllers/users/crud/get-users-by-id";
+import { updateUser } from "../../controllers/users/crud/update-users";
+import { deleteUsers } from "../../controllers/users/crud/delete-users";
 
 const userRoutes = new Hono<{ Bindings: Bindings }>();
 

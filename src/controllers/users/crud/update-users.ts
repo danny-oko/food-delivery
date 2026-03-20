@@ -1,13 +1,14 @@
 import { Context } from "hono";
-import { getDb } from "../../lib/db";
-import { Bindings } from "../../lib/types";
+import { getDb } from "../../../lib/db";
+import { Bindings } from "../../../lib/types";
 import { eq } from "drizzle-orm";
-import { usersTable } from "../../db/schema";
+import { usersTable } from "../../../db/schema";
 
 export const updateUser = async (c: Context<{ Bindings: Bindings }>) => {
   try {
     const id = c.req.param("id");
     const body = await c.req.json();
+
     const db = getDb(c);
 
     const res = await db

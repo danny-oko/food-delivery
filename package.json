@@ -7,12 +7,19 @@
     "cf-typegen": "wrangler types --env-interface CloudflareBindings"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
     "cloudflare-workers": "^0.0.14",
     "dotenv": "^17.3.1",
     "drizzle-orm": "^0.45.1",
-    "hono": "^4.12.8"
+    "hono": "^4.12.8",
+    "json-web-token": "^3.2.0",
+    "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.5.0",
     "drizzle-kit": "^0.31.9",
     "tsx": "^4.21.0",

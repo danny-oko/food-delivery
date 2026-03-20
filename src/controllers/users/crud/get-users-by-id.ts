@@ -1,7 +1,7 @@
 import { Context } from "hono";
-import { getDb } from "../../lib/db";
+import { getDb } from "../../../lib/db";
 import { eq } from "drizzle-orm";
-import { usersTable } from "../../db/schema";
+import { usersTable } from "../../../db/schema";
 
 export const getUsersById = async (c: Context) => {
   try {

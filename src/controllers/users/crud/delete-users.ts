@@ -1,6 +1,6 @@
 import { Context } from "hono";
-import { getDb } from "../../lib/db";
-import { usersTable } from "../../db/schema";
+import { getDb } from "../../../lib/db";
+import { usersTable } from "../../../db/schema";
 import { eq } from "drizzle-orm";
 
 export const deleteUsers = async (c: Context) => {
