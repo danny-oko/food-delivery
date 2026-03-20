@@ -1,17 +1,16 @@
 import { Context } from "hono";
-import { getDb } from "../../../lib/db";
-import { usersTable } from "../../../db/schema";
 import bcrypt from "bcryptjs";
 import { sign } from "hono/jwt";
+import { getDb } from "../../../../lib/db";
+import { usersTable } from "../../../../db/schema";
 
-export const registerUser = async (c: Context) => {
+export const createUser = async (c: Context) => {
   try {
     const body = await c.req.json().catch(() => null);
     if (!body) return c.json({ message: "Invalid JSON body" }, 400);
 
     const { role, name, email, password, age, tel } = body;
 
-    // 1. Validation
     if (!name || !email || !password || !tel) {
       return c.json({ message: "All fields are required!" }, 400);
     }
