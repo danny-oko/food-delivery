@@ -8,6 +8,7 @@ export const foodsTable = sqliteTable("foods_table", {
   name: text().notNull(),
   price: text().notNull(),
   categoryId: int().references(() => foodCategoriesTable.id),
+  img: text(),
   createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
     () => new Date(),
   ),
