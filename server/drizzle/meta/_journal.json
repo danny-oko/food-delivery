@@ -36,6 +36,20 @@
       "when": 1773908701604,
       "tag": "0004_easy_juggernaut",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1773976726435,
+      "tag": "0005_daffy_snowbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1773979520997,
+      "tag": "0006_glamorous_red_ghost",
+      "breakpoints": true
     }
   ]
 }

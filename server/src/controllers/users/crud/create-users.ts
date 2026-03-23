@@ -4,7 +4,7 @@ import { usersTable } from "../../../db/schema";
 import bcrypt from "bcryptjs";
 import { sign } from "hono/jwt";
 
-export const registerUser = async (c: Context) => {
+export const createUser = async (c: Context) => {
   try {
     const body = await c.req.json().catch(() => null);
     if (!body) return c.json({ message: "Invalid JSON body" }, 400);

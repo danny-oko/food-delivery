@@ -4,7 +4,7 @@ import { foodsTable } from "./foods.schema";
 
 export const foodCategoriesTable = sqliteTable("food_categories_table", {
   id: int().primaryKey({ autoIncrement: true }),
-  name: text(),
+  name: text().notNull().unique(),
   createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
     () => new Date(),
   ),
@@ -13,8 +13,7 @@ export const foodCategoriesTable = sqliteTable("food_categories_table", {
     .$onUpdate(() => new Date()),
 });
 
-// relation
-export const foodCategoriesRelation = relations(
+export const foodCategoriesRelations = relations(
   foodCategoriesTable,
   ({ many }) => ({
     foods: many(foodsTable),

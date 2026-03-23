@@ -5,7 +5,7 @@ import { foodsTable } from "../../db/schema";
 export const postFood = async (c: Context) => {
   try {
     const body = await c.req.json();
-    const { name, price, categoryId } = body;
+    const { name, price, categoryId, img, overview } = body;
 
     if (!name || !price) {
       return c.json({ error: "Name and Price are required!" }, 400);
@@ -15,12 +15,16 @@ export const postFood = async (c: Context) => {
 
     const result = await db
       .insert(foodsTable)
-      .values({ name, price, categoryId })
+      .values({
+        name: name,
+        price: price,
+        categoryId: categoryId,
+        img: img,
+        overview: overview,
+      })
       .returning();
 
-    const foods = await db.select().from(foodsTable);
-
-    return c.json({ food_created: result[0], foods: foods }, 201);
+    return c.json({ food_created: result[0] }, 201);
   } catch (error: any) {
     return c.json({ error: error.message }, 500);
   }
