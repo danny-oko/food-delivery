@@ -3,3 +3,4 @@ export * from "./schema/foodCategory.schema";
 export * from "./schema/foodOrder.schema";
 export * from "./schema/foodOrderItem";
 export * from "./schema/users.schema";
+export * from "./schema/foodOrder.schema";

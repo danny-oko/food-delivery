@@ -1,19 +1,16 @@
 import { Hono, Context } from "hono";
 import { getDb } from "../../lib/db";
+import { foodCategoriesTable } from "../../db/schema";
 
 export const getCategories = async (c: Context) => {
   try {
     const db = getDb(c);
 
-    const res = await db.query.foodCategoriesTable.findMany({
-      with: {
-        foods: true,
-      },
-    });
+    const res = await db.select().from(foodCategoriesTable);
 
-    // if (res.length === 0) {
-    //   return c.json({ message: "No results available" }, 200);
-    // }
+    if (res.length === 0) {
+      return c.json({ message: "No results available" }, 200);
+    }
 
     return c.json({ results: res }, 200);
   } catch (error: any) {

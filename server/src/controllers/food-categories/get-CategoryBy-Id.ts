@@ -8,18 +8,15 @@ export const getCategoryById = async (c: Context) => {
     const id = c.req.param("id");
     const db = getDb(c);
 
-    const result = await db.query.foodCategoriesTable.findFirst({
+    const res = await db.query.foodCategoriesTable.findFirst({
       where: eq(foodCategoriesTable.id, Number(id)),
-      with: {
-        foods: true,
-      },
     });
 
-    if (!result) {
+    if (!res) {
       return c.json({ message: "Category not found" }, 404);
     }
 
-    return c.json({ result }, 200);
+    return c.json({ res }, 200);
   } catch (error: any) {
     return c.json({ error: error.message }, 500);
   }

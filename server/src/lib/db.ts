@@ -4,7 +4,7 @@ import { Bindings } from "./types";
 import * as schema from "../db/schema";
 
 export const getDrizzleDb = (d1: D1Database) => {
-  return drizzle(d1);
+  return drizzle(d1, { schema });
 };
 
 export const getDb = (c: Context<{ Bindings: Bindings }>) => {

@@ -1,5 +1,5 @@
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import { foodCategoriesTable } from "./foodCategory.schema";
 import { foodOrderItems } from "./foodOrderItem";
 
@@ -10,11 +10,10 @@ export const foodsTable = sqliteTable("foods_table", {
   categoryId: int("category_id").references(() => foodCategoriesTable.id),
   img: text("img"),
   overview: text("overview"),
-  createdAt: int("created_at", { mode: "timestamp" })
-    .default(sql`(strftime('%s', 'now'))`)
-    .$defaultFn(() => new Date()),
+  createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date(),
+  ),
   updatedAt: int("updated_at", { mode: "timestamp" })
-    .default(sql`(strftime('%s', 'now'))`)
     .$defaultFn(() => new Date())
     .$onUpdate(() => new Date()),
 });
@@ -24,5 +23,5 @@ export const foodsRelations = relations(foodsTable, ({ one, many }) => ({
     fields: [foodsTable.categoryId],
     references: [foodCategoriesTable.id],
   }),
-  foodOrderItems: many(foodOrderItems),
+  orderItems: many(foodOrderItems),
 }));

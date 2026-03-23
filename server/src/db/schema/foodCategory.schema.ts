@@ -3,8 +3,8 @@ import { relations } from "drizzle-orm";
 import { foodsTable } from "./foods.schema";
 
 export const foodCategoriesTable = sqliteTable("food_categories_table", {
-  id: int().primaryKey({ autoIncrement: true }),
-  name: text().notNull().unique(),
+  id: int("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull().unique(),
   createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
     () => new Date(),
   ),
