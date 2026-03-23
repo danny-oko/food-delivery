@@ -11,7 +11,6 @@ export const createUser = async (c: Context) => {
 
     const { role, name, email, password, age, tel } = body;
 
-    // 1. Validation
     if (!name || !email || !password || !tel) {
       return c.json({ message: "All fields are required!" }, 400);
     }
@@ -39,9 +38,14 @@ export const createUser = async (c: Context) => {
         tel: usersTable.tel,
       });
 
-    const secret = c.env.JWT_SECRET || "fallback-secret";
+    const secret = c.env.JWT_SECRET;
+
     const token = await sign(
-      { sub: newUser.id, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 },
+      {
+        sub: newUser.id,
+        role: newUser.role,
+        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
+      },
       secret,
     );
 
@@ -55,10 +59,16 @@ export const createUser = async (c: Context) => {
     );
   } catch (error: any) {
     console.error(error);
-    const message = error.message?.includes("UNIQUE constraint failed")
-      ? "Email already exists"
-      : "Registration failed. Please try again.";
 
-    return c.json({ message }, 500);
+    const isDuplicate = error.message?.includes("UNIQUE constraint failed");
+
+    return c.json(
+      {
+        message: isDuplicate
+          ? "Email already exists"
+          : "Registration failed. Please try again.",
+      },
+      isDuplicate ? 409 : 500,
+    );
   }
 };

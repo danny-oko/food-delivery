@@ -15,9 +15,16 @@ export type OrderItemType = {
 
 export type User = {
   id: number;
+  role: "user" | "admin";
   name: string;
   email: string;
   password: string;
   age: number;
   tel: string;
+};
+
+export type JWTPayload = {
+  sub: string;
+  role: string;
+  exp: number;
 };
