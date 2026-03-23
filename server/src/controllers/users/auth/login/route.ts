@@ -17,11 +17,11 @@ export const userLogIn = async (c: Context) => {
       .where(eq(usersTable.email, email.toLowerCase().trim()))
       .limit(1);
 
-    if (user && user.password !== null) {
+    if (!user) {
       return c.json({ message: "Invalid email or password" }, 401);
     }
 
-    const isValidPassword = bcrypt.compare(
+    const isValidPassword = await bcrypt.compare(
       String(password),
       String(user.password),
     );
@@ -38,6 +38,7 @@ export const userLogIn = async (c: Context) => {
         exp: Math.floor(Date.now() / 1000) + 60 * 60,
       },
       secret,
+      "HS256",
     );
 
     return c.json({
@@ -50,6 +51,7 @@ export const userLogIn = async (c: Context) => {
       },
     });
   } catch (error: any) {
+    console.error(error);
     return c.json({ message: "Internal Server Error" }, 500);
   }
 };
