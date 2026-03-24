@@ -10,6 +10,10 @@ export const getCategoryById = async (c: Context) => {
 
     const res = await db.query.foodCategoriesTable.findFirst({
       where: eq(foodCategoriesTable.id, Number(id)),
+
+      with: {
+        foods: true,
+      },
     });
 
     if (!res) {

@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 const Appetizers = async () => {
   const { data } = await api.get("/foods");
   const res: FoodType[] = data.foods;
-  console.log(res);
+  // console.log(res);
 
   return (
     <div className="bg-white rounded-2xl p-6">
@@ -22,7 +22,6 @@ const Appetizers = async () => {
           <DishCard key={dish.id} {...dish} />
         ))}
       </div>
-      
     </div>
   );
 };

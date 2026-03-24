@@ -5,7 +5,7 @@ import { Pencil } from "lucide-react";
 import { FoodType } from "@/lib/types";
 
 const DishCard = ({ id, name, price, img, overview }: FoodType) => {
-  console.log(id, name, price, img, overview);
+  // console.log(id, name, price, img, overview);
   return (
     <Card className="overflow-hidden rounded-3xl shadow-sm border border-gray-100">
       <div className="relative p-2">

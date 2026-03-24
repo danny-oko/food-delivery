@@ -8,3 +8,18 @@ export type FoodType = {
   createdAt: Date | null;
   updatedAt: Date | null;
 };
+
+export type Genre = {
+  id: number;
+  name: string;
+  createdAt: number;
+  updatedAt: number;
+};
+
+export type Categories = {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  foods: FoodType[];
+};
