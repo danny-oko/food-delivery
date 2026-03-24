@@ -2,22 +2,16 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
+import { FoodType } from "@/lib/types";
 
-export type Dish = {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  image: string;
-};
-
-const DishCard = ({ dish }: { dish: Dish }) => {
+const DishCard = ({ id, name, price, img, overview }: FoodType) => {
+  console.log(id, name, price, img, overview);
   return (
     <Card className="overflow-hidden rounded-3xl shadow-sm border border-gray-100">
       <div className="relative p-2">
         <img
-          src={dish.image}
-          alt={dish.name}
+          src={img ?? `https://picsum.photos/seed/${id}/400/300`}
+          alt={name}
           className="w-full h-36 object-cover rounded-xl"
         />
         <Button
@@ -29,13 +23,11 @@ const DishCard = ({ dish }: { dish: Dish }) => {
       </div>
       <CardContent className="px-4 pb-5 pt-2">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-lg font-bold text-red-500">{dish.name}</span>
-          <span className="text-lg font-semibold text-gray-900">
-            ${dish.price}
-          </span>
+          <span className="text-lg font-bold text-red-500">{name}</span>
+          <span className="text-lg font-semibold text-gray-900">${price}</span>
         </div>
         <p className="text-sm text-gray-600 leading-relaxed">
-          {dish.description}
+          {overview ?? "No description available"}
         </p>
       </CardContent>
     </Card>
