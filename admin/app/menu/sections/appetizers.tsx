@@ -22,6 +22,7 @@ const Appetizers = async () => {
           <DishCard key={dish.id} {...dish} />
         ))}
       </div>
+      
     </div>
   );
 };
