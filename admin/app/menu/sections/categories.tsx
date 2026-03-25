@@ -1,18 +1,21 @@
-"use client";
-import CategoryChips from "@/components/category/CategoryChip";
-import { useCategories } from "@/hooks/useCategories";
+import { AddButton } from "@/components/category/addButton";
+import { CategoryChips } from "@/components/category/CategoryChip";
+import api from "@/lib/axios";
+import { foodsService } from "@/lib/foods.servies";
+import { Categories } from "@/lib/types";
 
-const CategoriesSection = () => {
-  const { categories, loading, error } = useCategories();
-
-  if (loading) return null;
-  if (error) return <div>Failed to load categories</div>;
+export const DisplayCategories = async () => {
+  const { getAllCategories } = foodsService();
+  const { results } = await getAllCategories();
+  console.log(results);
 
   return (
-    <div className="container">
-      <CategoryChips categories={categories} />
+    <div className="bg-white rounded-2xl p-6 shadow-sm">
+      <h2 className="text-xl font-bold text-gray-900 mb-4">Dishes category</h2>
+      <div className="flex flex-wrap gap-2">
+        <CategoryChips results={results} />
+        <AddButton />
+      </div>
     </div>
   );
 };
-
-export default CategoriesSection;

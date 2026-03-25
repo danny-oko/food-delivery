@@ -16,10 +16,13 @@ export type Genre = {
   updatedAt: number;
 };
 
-export type Categories = {
+export type Category = {
   id: number;
   name: string;
   createdAt: string;
   updatedAt: string;
   foods: FoodType[];
+};
+export type Categories = {
+  results: Category[];
 };

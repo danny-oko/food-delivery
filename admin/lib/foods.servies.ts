@@ -1,13 +1,13 @@
 // services/foodsService.ts
 import api from "./axios";
-import { Categories, FoodType } from "./types";
+import { Categories, Category, FoodType } from "./types";
 
 export const foodsService = () => {
-  const getAllCategories = async (): Promise<Categories[]> => {
+  const getAllCategories = async (): Promise<Categories> => {
     const { data } = await api.get("/categories");
-    console.log("service sided log:", data);
-    return data.categories;
-  };
+    // console.log("service sided log:", data);
+    return data;
+  };;
 
   const getAllFoods = async (): Promise<FoodType[]> => {
     const { data } = await api.get("/foods");
@@ -16,7 +16,7 @@ export const foodsService = () => {
 
   const getFoodsByCategory = async ({
     id,
-  }: Pick<Categories, "id">): Promise<Categories> => {
+  }: Pick<Category, "id">): Promise<Categories> => {
     const { data } = await api.get(`/categories/${id}`);
     return data;
   };

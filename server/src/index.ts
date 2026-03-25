@@ -4,8 +4,17 @@ import foodsRoute from "./routes/foods/route";
 import categoriesRoute from "./routes/categories/route";
 import userRoutes from "./routes/users/route";
 import foodOrderRoutes from "./routes/orders/route";
+import { cors } from "hono/cors";
 
 const app = new Hono<{ Bindings: Bindings }>();
+app.use(
+  "/*",
+  cors({
+    origin: "http://localhost:3000",
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 
 app.route("/foods", foodsRoute);
 app.route("/categories", categoriesRoute);
