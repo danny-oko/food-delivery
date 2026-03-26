@@ -1,12 +1,12 @@
 import React from "react";
-import Appetizers from "./sections/appetizers";
 import { DisplayCategories } from "./sections/categories";
+import { Foods } from "./sections/foods";
 
 const pgae = () => {
   return (
-    <div>
+    <div className="bg-[#F4F4F5]">
       <DisplayCategories />
-      <Appetizers />
+      <Foods />
     </div>
   );
 };

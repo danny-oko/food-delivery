@@ -4,8 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { FoodType } from "@/lib/types";
 
-const DishCard = ({ id, name, price, img, overview }: FoodType) => {
-  // console.log(id, name, price, img, overview);
+type DishCardProps = Pick<
+  FoodType,
+  "id" | "name" | "price" | "img" | "overview"
+>;
+
+const DishCard = ({ id, name, price, img, overview }: DishCardProps) => {
   return (
     <Card className="overflow-hidden rounded-3xl shadow-sm border border-gray-100">
       <div className="relative p-2">

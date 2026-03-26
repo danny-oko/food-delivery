@@ -1,4 +1,3 @@
-// services/foodsService.ts
 import api from "./axios";
 import { Categories, Category, FoodType } from "./types";
 
@@ -7,7 +6,7 @@ export const foodsService = () => {
     const { data } = await api.get("/categories");
     // console.log("service sided log:", data);
     return data;
-  };;
+  };
 
   const getAllFoods = async (): Promise<FoodType[]> => {
     const { data } = await api.get("/foods");

@@ -15,15 +15,18 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ChangeEventHandler, useState } from "react";
 import api from "@/lib/axios";
+import { useRouter } from "next/navigation";
 
 export const AddButton = () => {
+  const router = useRouter();
+
   const [categoryName, setCategoryName] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setCategoryName(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
 
   const handleAddCategory = async () => {
@@ -31,6 +34,7 @@ export const AddButton = () => {
     try {
       await api.post("/categories", { name: categoryName });
       setOpen(false);
+      router.refresh();
     } catch (error) {
       console.error(error);
     } finally {
@@ -52,7 +56,7 @@ export const AddButton = () => {
         </DialogHeader>
         <div className="flex items-center gap-2">
           <div className="grid flex-1 gap-2">
-            <Label htmlFor="categoryName">Category Name</Label>
+            {/* <Label htmlFor="categoryName">Category Name</Label> */}
             <Input
               id="categoryName"
               placeholder="e.g Fast Food"
