@@ -10,7 +10,6 @@ export const Foods = async () => {
     name: cat.name,
     foods: cat.foods,
   }));
-
   return (
     <div className="flex flex-col gap-6">
       {categories.map((category) => (

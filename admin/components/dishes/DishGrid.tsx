@@ -3,14 +3,15 @@ import AddDishCard from "./AddDishCard";
 import DishCard from "./DishCard";
 
 type DishGridProps = {
+  id: string;
   categoryName: string;
   foods: FoodType[];
 };
 
-export const DishGrid = ({ categoryName, foods }: DishGridProps) => {
+export const DishGrid = ({ id, categoryName, foods }: DishGridProps) => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-      <AddDishCard category={categoryName} />
+      <AddDishCard id={id} category={categoryName} />
 
       {foods.map((dish) => (
         <DishCard

@@ -1,65 +1,155 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Pencil, Plus } from "lucide-react";
+"use client";
+
+import React, { useRef, useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Plus, X, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Field, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import api from "@/lib/axios";
 
-const AddDishCard = ({ category }: { category: string }) => {
+const AddDishCard = ({ category, id }: { category: string; id: string }) => {
+  const [food, setFood] = useState<{
+    foodName: string;
+    price: number;
+    description: string;
+    img: string;
+    categoryId: null | number;
+  }>({
+    foodName: "",
+    price: 0,
+    description: "",
+    img: "",
+    categoryId: Number(id),
+  });
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFood({ ...food, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await api.post("/foods", { foods: food });
+      console.log("success:", food);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Dialog>
-      <form>
-        <DialogTrigger asChild>
-          <Card className="border-2 border-dashed border-red-300 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-red-50 transition-colors min-h-[220px] shadow-none">
-            {" "}
-            <Button
-              size="icon"
-              className="rounded-full bg-red-500 hover:bg-red-600 h-10 w-10"
+      <DialogTrigger asChild>
+        <Card className="border-2 border-dashed border-red-300 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-red-50 transition-colors min-h-[220px] shadow-none">
+          <Button
+            size="icon"
+            className="rounded-full bg-red-500 hover:bg-red-600 h-10 w-10"
+            type="button"
+          >
+            <Plus className="h-5 w-5" />
+          </Button>
+          <p className="text-sm text-gray-500 text-center">
+            Add new Dish to {category}
+          </p>
+        </Card>
+      </DialogTrigger>
+
+      <DialogContent className="sm:max-w-lg bg-white rounded-2xl p-6 gap-6 [&>button]:hidden">
+        <DialogHeader className="flex flex-row items-center justify-between space-y-0">
+          <DialogTitle className="text-xl font-semibold text-gray-900">
+            Add new Dish to {category}
+          </DialogTitle>
+          <DialogClose className="rounded-full border border-gray-200 p-1.5 hover:bg-gray-100 transition-colors">
+            <X className="h-4 w-4 text-gray-500" />
+          </DialogClose>
+        </DialogHeader>
+
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col gap-1.5">
+              <Label
+                htmlFor="foodName"
+                className="text-sm font-medium text-gray-700"
+              >
+                Food name
+              </Label>
+              <Input
+                id="foodName"
+                name="foodName"
+                placeholder="Name"
+                type="text"
+                className="rounded-lg border-gray-200"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label
+                htmlFor="price"
+                className="text-sm font-medium text-gray-700"
+              >
+                Food price
+              </Label>
+              <Input
+                id="price"
+                name="price"
+                placeholder="Price"
+                type="number"
+                className="rounded-lg border-gray-200"
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label
+              htmlFor="ingredients"
+              className="text-sm font-medium text-gray-700"
             >
-              <Plus className="h-5 w-5" />
+              Ingredients
+            </Label>
+            <Textarea
+              id="ingredients"
+              name="description"
+              placeholder="Ingredients"
+              className="rounded-lg border-gray-200 min-h-[120px] resize-none"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="img" className="text-sm font-medium text-gray-700">
+              Food image URL
+            </Label>
+            <Input
+              id="img"
+              name="img"
+              placeholder="https://example.com/image.jpg"
+              type="url"
+              className="rounded-lg border-gray-200"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="flex justify-end pt-1">
+            <Button
+              type="submit"
+              className="bg-gray-900 hover:bg-gray-800 text-white rounded-xl px-6"
+            >
+              Add Dish
             </Button>
-            <p className="text-sm text-gray-500 text-center">
-              Add new Dish to {category}
-            </p>
-          </Card>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-sm">
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
-            </DialogDescription>
-          </DialogHeader>
-          <FieldGroup>
-            <Field>
-              <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
-            </Field>
-            <Field>
-              <Label htmlFor="username-1">Username</Label>
-              <Input id="username-1" name="username" defaultValue="@peduarte" />
-            </Field>
-          </FieldGroup>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
-        </DialogContent>
-      </form>
+          </div>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 };
