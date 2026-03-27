@@ -2,6 +2,7 @@
 
 import { Trash } from "lucide-react";
 import { Button } from "../ui/button";
+import { LoaderCircle } from "lucide-react";
 
 import {
   Dialog,
@@ -34,9 +35,10 @@ export function DeleteButton({
 
   const handleDelete = async () => {
     setLoading(true);
+
     try {
       await api.delete(`/foods/${foodId}`);
-      console.log("res");
+      console.log("Dish deleted Successfully!");
       router.refresh();
     } catch (error) {
       setError(error);
@@ -59,14 +61,18 @@ export function DeleteButton({
 
       <DialogContent className="sm:max-w-sm bg-white">
         <DialogHeader>
-          <DialogTitle>Are sure to delete dish {foodName} </DialogTitle>
+          <DialogTitle>Delete {foodName}? </DialogTitle>
         </DialogHeader>
         <DialogFooter className="sm:justify-between">
           <DialogClose asChild>
             <Button type="button">Close</Button>
           </DialogClose>
           <Button className="bg-red-500 text-white" onClick={handleDelete}>
-            Delete
+            {loading ? (
+              <LoaderCircle className="animate-spin" />
+            ) : (
+              <p>Delete</p>
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

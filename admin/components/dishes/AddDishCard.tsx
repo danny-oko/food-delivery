@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Plus, X, ImageIcon } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
