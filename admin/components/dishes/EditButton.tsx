@@ -13,17 +13,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Selector } from "./Selector";
+import { FoodType } from "@/lib/types";
 
-export const EditButton = (
-  {
-    // id,
-    // name,
-    // price,
-    // img,
-    // overview,
-    // categoryId,
-  },
-) => {
+export const EditButton = ({ id, name, price, img, overview }: FoodType) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -55,6 +48,7 @@ export const EditButton = (
                 Food name
               </Label>
               <Input
+                defaultValue={name}
                 id="foodName"
                 name="foodName"
                 placeholder="Name"
@@ -62,6 +56,15 @@ export const EditButton = (
                 className="rounded-lg border-gray-200"
                 // onChange={handleChange}
               />
+
+              {/* categories */}
+              <Label
+                htmlFor="foodName"
+                className="text-sm font-medium text-gray-700"
+              >
+                Category
+              </Label>
+              <Selector />
             </div>
             <div className="flex flex-col gap-1.5">
               <Label
@@ -71,6 +74,7 @@ export const EditButton = (
                 Food price
               </Label>
               <Input
+                defaultValue={price}
                 id="price"
                 name="price"
                 placeholder="Price"
@@ -89,6 +93,7 @@ export const EditButton = (
               Ingredients
             </Label>
             <Textarea
+              defaultValue={String(overview)}
               id="ingredients"
               name="description"
               placeholder="Ingredients"
@@ -102,6 +107,7 @@ export const EditButton = (
               Food image URL
             </Label>
             <Input
+              defaultValue={String(img)}
               id="img"
               name="img"
               placeholder="https://example.com/image.jpg"
@@ -114,8 +120,10 @@ export const EditButton = (
           <div className="flex justify-end pt-1">
             <Button
               type="submit"
+              variant={"outline"}
               className="bg-gray-900 hover:bg-gray-800 text-white rounded-xl px-6"
             >
+              Update Dish data
               {/* {loading ? (
                 <LoaderCircle className="animate-spin" />
               ) : (

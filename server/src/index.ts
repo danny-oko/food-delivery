@@ -21,6 +21,4 @@ app.route("/categories", categoriesRoute);
 app.route("/orders", foodOrderRoutes);
 app.route("/users", userRoutes);
 
-// user auth
-
 export default app;

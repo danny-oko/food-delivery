@@ -20,5 +20,16 @@ export const foodsService = () => {
     return data;
   };
 
-  return { getAllCategories, getAllFoods, getFoodsByCategory };
+  const getAllCategoryNames = async () => {
+    const { data } = await api.get("/categories");
+    console.log(data);
+    return data;
+  };
+
+  return {
+    getAllCategories,
+    getAllFoods,
+    getFoodsByCategory,
+    getAllCategoryNames,
+  };
 };

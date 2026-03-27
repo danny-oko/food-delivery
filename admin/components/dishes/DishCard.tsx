@@ -1,10 +1,12 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
 import { FoodType } from "@/lib/types";
-import { Trash } from "lucide-react";
 import { DeleteButton } from "./DeleteButton";
+import { EditButton } from "./EditButton";
+import { Pencil } from "lucide-react";
+import { foodsService } from "@/lib/foods.servies";
 
 type DishCardProps = Pick<
   FoodType,
@@ -12,7 +14,6 @@ type DishCardProps = Pick<
 >;
 
 const DishCard = ({ id, name, price, img, overview }: DishCardProps) => {
-  // console.log(id);
   return (
     <Card className="overflow-hidden rounded-3xl shadow-sm border border-gray-100">
       <div className="relative p-2">
@@ -22,12 +23,16 @@ const DishCard = ({ id, name, price, img, overview }: DishCardProps) => {
           className="w-full h-36 object-cover rounded-xl"
         />
         <DeleteButton foodId={id} foodName={name} />
-        <Button
-          size="icon"
-          className="absolute bottom-5 right-5 rounded-full bg-white hover:bg-gray-100 h-12 w-12 shadow-md"
-        >
-          <Pencil className="h-5 w-5 text-red-500" />
-        </Button>
+        <EditButton
+          id={id}
+          name={name}
+          price={price}
+          img={img}
+          overview={overview}
+          categoryId={null}
+          createdAt={null}
+          updatedAt={null}
+        />
       </div>
       <CardContent className="px-4 pb-5 pt-2">
         <div className="flex items-center justify-between mb-2">
@@ -40,6 +45,6 @@ const DishCard = ({ id, name, price, img, overview }: DishCardProps) => {
       </CardContent>
     </Card>
   );
-};;
+};
 
 export default DishCard;
