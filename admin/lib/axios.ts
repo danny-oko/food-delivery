@@ -1,9 +1,9 @@
+// lib/api.ts
 import axios from "axios";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8787",
   headers: {
-    Authorization: process.env.JWT_SECRET,
     "Content-Type": "application/json",
   },
   timeout: 10000,
@@ -11,29 +11,32 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    // const token = localStorage.getItem("token");
-    // if (token) config.headers.Authorization = `Bearer ${token}`;
+    // Read token from localStorage at request time (browser only)
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
     return config;
   },
-
-  (error) => {
-    return Promise.reject(error);
-  },
+  (error) => Promise.reject(error),
 );
 
-// Response interceptor — handle errors globally
 api.interceptors.response.use(
-  (response) => {
-    // console.log("======3=====");
-
-    return response;
-  },
+  (response) => response,
   (error) => {
-    console.error(
-      "API Error:",
-      error.response?.status,
-      error.response?.data || error,
-    );
+    const status = error.response?.status;
+
+    if (status === 401) {
+      // Token expired or invalid — redirect to login
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      }
+    }
+
+    console.error("API Error:", status, error.response?.data || error.message);
     return Promise.reject(error);
   },
 );

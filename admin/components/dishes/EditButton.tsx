@@ -1,6 +1,7 @@
 "use client";
 
-import { Pencil, Plus, X } from "lucide-react";
+import { useState } from "react";
+import { Pencil, X, LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,10 +16,59 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Selector } from "./Selector";
 import { FoodType } from "@/lib/types";
+import { foodsService } from "@/lib/foods.servies";
+import { useRouter } from "next/navigation";
 
-export const EditButton = ({ id, name, price, img, overview }: FoodType) => {
+export const EditButton = ({
+  id,
+  name,
+  price,
+  img,
+  overview,
+  categoryId,
+}: FoodType) => {
+  const [formData, setFormData] = useState({
+    name: name ?? "",
+    price: String(price ?? 0),
+    img: img ?? "",
+    overview: overview ?? "",
+    categoryId: categoryId ?? "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const router = useRouter();
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, categoryId: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const { updateFood } = foodsService();
+      await updateFood(id, {
+        ...formData,
+        price: Number(formData.price),
+      });
+      setOpen(false);
+      router.refresh();
+    } catch (error) {
+      console.error("Failed to update food:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           size="icon"
@@ -31,14 +81,14 @@ export const EditButton = ({ id, name, price, img, overview }: FoodType) => {
       <DialogContent className="sm:max-w-lg bg-white rounded-2xl p-6 gap-6 [&>button]:hidden">
         <DialogHeader className="flex flex-row items-center justify-between space-y-0">
           <DialogTitle className="text-xl font-semibold text-gray-900">
-            Add new Dish to
+            Edit Dish
           </DialogTitle>
           <DialogClose className="rounded-full border border-gray-200 p-1.5 hover:bg-gray-100 transition-colors">
             <X className="h-4 w-4 text-gray-500" />
           </DialogClose>
         </DialogHeader>
 
-        <form className="flex flex-col gap-5">
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-1.5">
               <Label
@@ -48,24 +98,25 @@ export const EditButton = ({ id, name, price, img, overview }: FoodType) => {
                 Food name
               </Label>
               <Input
-                defaultValue={name}
                 id="foodName"
-                name="foodName"
+                name="name" // ← must match formData key
+                value={formData.name}
                 placeholder="Name"
                 type="text"
                 className="rounded-lg border-gray-200"
-                // onChange={handleChange}
+                onChange={handleChange}
               />
 
-              {/* categories */}
-              <Label
-                htmlFor="foodName"
-                className="text-sm font-medium text-gray-700"
-              >
+              <Label className="text-sm font-medium text-gray-700">
                 Category
               </Label>
-              <Selector />
+              {/* ⑥ Pass current categoryId & the updater callback */}
+              <Selector
+                defaultValue={String(categoryId ?? "")}
+                onValueChange={handleCategoryChange}
+              />
             </div>
+
             <div className="flex flex-col gap-1.5">
               <Label
                 htmlFor="price"
@@ -74,13 +125,13 @@ export const EditButton = ({ id, name, price, img, overview }: FoodType) => {
                 Food price
               </Label>
               <Input
-                defaultValue={price}
                 id="price"
                 name="price"
+                value={formData.price}
                 placeholder="Price"
                 type="number"
                 className="rounded-lg border-gray-200"
-                // onChange={handleChange}
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -93,12 +144,12 @@ export const EditButton = ({ id, name, price, img, overview }: FoodType) => {
               Ingredients
             </Label>
             <Textarea
-              defaultValue={String(overview)}
               id="ingredients"
-              name="description"
+              name="overview"
+              value={formData.overview}
               placeholder="Ingredients"
               className="rounded-lg border-gray-200 min-h-[120px] resize-none"
-              // onChange={handleChange}
+              onChange={handleChange}
             />
           </div>
 
@@ -107,28 +158,27 @@ export const EditButton = ({ id, name, price, img, overview }: FoodType) => {
               Food image URL
             </Label>
             <Input
-              defaultValue={String(img)}
               id="img"
               name="img"
+              value={formData.img}
               placeholder="https://example.com/image.jpg"
               type="url"
               className="rounded-lg border-gray-200"
-              // onChange={handleChange}
+              onChange={handleChange}
             />
           </div>
 
           <div className="flex justify-end pt-1">
             <Button
               type="submit"
-              variant={"outline"}
+              disabled={loading}
               className="bg-gray-900 hover:bg-gray-800 text-white rounded-xl px-6"
             >
-              Update Dish data
-              {/* {loading ? (
+              {loading ? (
                 <LoaderCircle className="animate-spin" />
               ) : (
-                <p>Add Dish</p>
-              )} */}
+                "Update Dish"
+              )}
             </Button>
           </div>
         </form>

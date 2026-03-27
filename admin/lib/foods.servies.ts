@@ -1,5 +1,5 @@
 import api from "./axios";
-import { Categories, Category, FoodType } from "./types";
+import { Categories, Category, FoodType, UpdateFoodPayload } from "./types";
 
 export const foodsService = () => {
   const getAllCategories = async (): Promise<Categories> => {
@@ -26,10 +26,19 @@ export const foodsService = () => {
     return data;
   };
 
+  const updateFood = async (
+    id: string | number,
+    payload: UpdateFoodPayload,
+  ): Promise<FoodType> => {
+    const { data } = await api.put(`/foods/${id}`, payload);
+    return data;
+  };
+
   return {
     getAllCategories,
     getAllFoods,
     getFoodsByCategory,
     getAllCategoryNames,
+    updateFood,
   };
 };

@@ -13,7 +13,7 @@ const foodsRoute = new Hono<{ Bindings: Bindings }>();
 foodsRoute.get("/", getFoods);
 foodsRoute.get(":id", getFoodsById);
 foodsRoute.post("/", postFood);
-foodsRoute.put(":id", adminAuthMiddleWare, updateFood);
+foodsRoute.put(":id", updateFood);
 foodsRoute.delete(":id", deleteFood);
 
 export default foodsRoute;

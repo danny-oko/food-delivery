@@ -26,3 +26,16 @@ export type Category = {
 export type Categories = {
   results: Category[];
 };
+
+export type SelectorProps = {
+  defaultValue?: string;
+  onValueChange: (value: string) => void; // ← lift state up to EditButton
+};
+
+export type UpdateFoodPayload = {
+  name: string;
+  price: number;
+  img: string;
+  overview: string;
+  categoryId: string | number;
+};

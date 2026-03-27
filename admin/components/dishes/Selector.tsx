@@ -8,14 +8,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { foodsService } from "@/lib/foods.servies";
-import { Category } from "@/lib/types";
+import { Category, SelectorProps } from "@/lib/types";
 import { useEffect, useState } from "react";
 
-type SelectorProps = {
-  categories: Category[];
-};
-
-export const Selector = () => {
+export const Selector = ({ defaultValue, onValueChange }: SelectorProps) => {
   const [data, setData] = useState<Category[]>();
 
   useEffect(() => {
@@ -24,7 +20,6 @@ export const Selector = () => {
         const { getAllCategories } = foodsService();
         const { results } = await getAllCategories();
         setData(results);
-        // console.log(results);
       } catch (error) {
         console.log(error);
       }
@@ -33,7 +28,7 @@ export const Selector = () => {
   }, []);
 
   return (
-    <Select>
+    <Select defaultValue={defaultValue} onValueChange={onValueChange}>
       <SelectTrigger className="w-full max-w-48">
         <SelectValue placeholder="Select a fruit" />
       </SelectTrigger>
@@ -41,7 +36,7 @@ export const Selector = () => {
         <SelectGroup className="bg-white">
           <SelectLabel>Choose categories</SelectLabel>
           {data?.map((category) => (
-            <SelectItem key={category.id} value={category.name}>
+            <SelectItem key={category.id} value={category.id.toString()}>
               {category.name}
             </SelectItem>
           ))}
