@@ -12,8 +12,8 @@ const foodsRoute = new Hono<{ Bindings: Bindings }>();
 
 foodsRoute.get("/", getFoods);
 foodsRoute.get(":id", getFoodsById);
-foodsRoute.post("/", adminAuthMiddleWare, postFood);
+foodsRoute.post("/", postFood);
 foodsRoute.put(":id", adminAuthMiddleWare, updateFood);
-foodsRoute.delete(":id", adminAuthMiddleWare, deleteFood);
+foodsRoute.delete(":id", deleteFood);
 
 export default foodsRoute;

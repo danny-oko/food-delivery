@@ -12,6 +12,7 @@ export const getCategories = async (c: Context) => {
         foods: true,
       },
     });
+  
 
     if (res.length === 0) {
       return c.json({ message: "No results available" }, 200);

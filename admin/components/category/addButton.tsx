@@ -26,7 +26,6 @@ export const AddButton = () => {
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setCategoryName(event.target.value);
-    // console.log(event.target.value);
   };
 
   const handleAddCategory = async () => {

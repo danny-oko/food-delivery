@@ -3,6 +3,7 @@
 import React, { useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Plus, X, ImageIcon } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,20 +16,57 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { FoodType } from "@/lib/types";
+import api from "@/lib/axios";
+import { useRouter } from "next/navigation";
 
-const AddDishCard = ({ category }: { category: string }) => {
-  const [data, setData] = useState<{
-    foodName: string;
-    price: number;
-    categoryId: null | number;
-    ingredients: string;
-  }>({ foodName: "", price: 0, categoryId: null, ingredients: "" });
+type Food = {
+  foodName: string;
+  price: number;
+  description: string;
+  img: string;
+  categoryId: null | number;
+};
 
-  // const handleChange = (e) => {};
+const AddDishCard = ({ category, id }: { category: string; id: string }) => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [food, setFood] = useState<Food>({
+    foodName: "",
+    price: 0,
+    description: "",
+    img: "",
+    categoryId: Number(id),
+  });
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFood({ ...food, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await api.post("/foods", {
+        name: food.foodName,
+        price: food.price,
+        categoryId: food.categoryId,
+        img: food.img,
+        overview: food.description,
+      });
+      setOpen(false);
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Card className="border-2 border-dashed border-red-300 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-red-50 transition-colors min-h-[220px] shadow-none">
           <Button
@@ -44,7 +82,7 @@ const AddDishCard = ({ category }: { category: string }) => {
         </Card>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-lg bg-white rounded-2xl p-6 gap-6">
+      <DialogContent className="sm:max-w-lg bg-white rounded-2xl p-6 gap-6 [&>button]:hidden">
         <DialogHeader className="flex flex-row items-center justify-between space-y-0">
           <DialogTitle className="text-xl font-semibold text-gray-900">
             Add new Dish to {category}
@@ -54,27 +92,35 @@ const AddDishCard = ({ category }: { category: string }) => {
           </DialogClose>
         </DialogHeader>
 
-        <form className="flex flex-col gap-5">
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-1.5">
-              <Label className="text-sm font-medium text-gray-700">
+              <Label
+                htmlFor="foodName"
+                className="text-sm font-medium text-gray-700"
+              >
                 Food name
               </Label>
               <Input
-                name="name"
-                placeholder="Placeholder"
+                id="foodName"
+                name="foodName"
+                placeholder="Name"
                 type="text"
                 className="rounded-lg border-gray-200"
                 onChange={handleChange}
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label className="text-sm font-medium text-gray-700">
+              <Label
+                htmlFor="price"
+                className="text-sm font-medium text-gray-700"
+              >
                 Food price
               </Label>
               <Input
+                id="price"
                 name="price"
-                placeholder="Placeholder"
+                placeholder="Price"
                 type="number"
                 className="rounded-lg border-gray-200"
                 onChange={handleChange}
@@ -82,60 +128,46 @@ const AddDishCard = ({ category }: { category: string }) => {
             </div>
           </div>
 
-          {/* Ingredients textarea */}
           <div className="flex flex-col gap-1.5">
-            <Label className="text-sm font-medium text-gray-700">
+            <Label
+              htmlFor="ingredients"
+              className="text-sm font-medium text-gray-700"
+            >
               Ingredients
             </Label>
             <Textarea
-              name="ingredients"
-              placeholder="Placeholder"
+              id="ingredients"
+              name="description"
+              placeholder="Ingredients"
               className="rounded-lg border-gray-200 min-h-[120px] resize-none"
               onChange={handleChange}
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label className="text-sm font-medium text-gray-700">
-              Food image
+            <Label htmlFor="img" className="text-sm font-medium text-gray-700">
+              Food image URL
             </Label>
-            <div
-              onClick={() => fileInputRef.current?.click()}
-              onDragOver={(e) => {
-                e.preventDefault();
-                setDragOver(true);
-              }}
-              onDragLeave={() => setDragOver(false)}
-              onDrop={handleDrop}
-              className={`flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed cursor-pointer transition-colors min-h-[130px]
-                ${
-                  dragOver
-                    ? "border-blue-400 bg-blue-100"
-                    : "border-blue-200 bg-blue-50 hover:bg-blue-100"
-                }`}
-            >
-              <ImageIcon className="h-7 w-7 text-gray-400" />
-              <p className="text-sm text-gray-500">
-                {fileName ?? "Choose a file or drag & drop it here"}
-              </p>
-              <input
-                ref={fileInputRef}
-                type="file"
-                name="img"
-                accept="image/*"
-                className="hidden"
-                onChange={handleChange}
-              />
-            </div>
+            <Input
+              id="img"
+              name="img"
+              placeholder="https://example.com/image.jpg"
+              type="url"
+              className="rounded-lg border-gray-200"
+              onChange={handleChange}
+            />
           </div>
 
-          {/* Footer */}
           <div className="flex justify-end pt-1">
             <Button
               type="submit"
-              className="bg-gray-900 hover:bg-gray-800 text-white rounded-lg px-6"
+              className="bg-gray-900 hover:bg-gray-800 text-white rounded-xl px-6"
             >
-              Add Dish
+              {loading ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                <p>Add Dish</p>
+              )}
             </Button>
           </div>
         </form>

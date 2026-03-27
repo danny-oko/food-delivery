@@ -3,6 +3,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { FoodType } from "@/lib/types";
+import { Trash } from "lucide-react";
+import { DeleteButton } from "./DeleteButton";
 
 type DishCardProps = Pick<
   FoodType,
@@ -10,14 +12,16 @@ type DishCardProps = Pick<
 >;
 
 const DishCard = ({ id, name, price, img, overview }: DishCardProps) => {
+  // console.log(id);
   return (
     <Card className="overflow-hidden rounded-3xl shadow-sm border border-gray-100">
       <div className="relative p-2">
         <img
-          src={img ?? `https://picsum.photos/seed/${id}/400/300`}
+          src={img || `https://picsum.photos/seed/${id}/400/300`}
           alt={name}
           className="w-full h-36 object-cover rounded-xl"
         />
+        <DeleteButton foodId={id} foodName={name} />
         <Button
           size="icon"
           className="absolute bottom-5 right-5 rounded-full bg-white hover:bg-gray-100 h-12 w-12 shadow-md"
@@ -36,6 +40,6 @@ const DishCard = ({ id, name, price, img, overview }: DishCardProps) => {
       </CardContent>
     </Card>
   );
-};
+};;
 
 export default DishCard;

@@ -1,16 +1,21 @@
-import { Context } from "hono";
 import { getDb } from "../../lib/db";
 import { foodsTable } from "../../db/schema";
+import { AppContext } from "../../lib/types";
+import { logger } from "hono/logger";
 
-export const postFood = async (c: Context) => {
+export const postFood = async (c: AppContext) => {
+  console.log("=======5======");
+
   try {
+    console.log("=======6======");
     const body = await c.req.json();
     const { name, price, categoryId, img, overview } = body;
-
-    if (!name || !price) {
-      return c.json({ error: "Name and Price are required!" }, 400);
-    }
-
+    console.log("body: ", body);
+    console.log("=======7======");
+    // if (!name || !price) {
+    //   return c.json({ error:}, 400);
+    // }
+    console.log("=======8======");
     const db = getDb(c);
 
     const result = await db

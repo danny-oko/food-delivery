@@ -1,5 +1,17 @@
 import { relations } from "drizzle-orm/relations";
-import { foodOrderTable, foodOrderItemsTable, foodsTable, usersTable, foodCategoriesTable } from "./schema";
+import { foodCategoriesTable, foodsTable, foodOrderTable, foodOrderItemsTable, usersTable } from "./schema";
+
+export const foodsTableRelations = relations(foodsTable, ({one, many}) => ({
+	foodCategoriesTable: one(foodCategoriesTable, {
+		fields: [foodsTable.categoryId],
+		references: [foodCategoriesTable.id]
+	}),
+	foodOrderItemsTables: many(foodOrderItemsTable),
+}));
+
+export const foodCategoriesTableRelations = relations(foodCategoriesTable, ({many}) => ({
+	foodsTables: many(foodsTable),
+}));
 
 export const foodOrderItemsTableRelations = relations(foodOrderItemsTable, ({one}) => ({
 	foodOrderTable: one(foodOrderTable, {
@@ -20,18 +32,6 @@ export const foodOrderTableRelations = relations(foodOrderTable, ({one, many}) =
 	}),
 }));
 
-export const foodsTableRelations = relations(foodsTable, ({one, many}) => ({
-	foodOrderItemsTables: many(foodOrderItemsTable),
-	foodCategoriesTable: one(foodCategoriesTable, {
-		fields: [foodsTable.categoryId],
-		references: [foodCategoriesTable.id]
-	}),
-}));
-
 export const usersTableRelations = relations(usersTable, ({many}) => ({
 	foodOrderTables: many(foodOrderTable),
-}));
-
-export const foodCategoriesTableRelations = relations(foodCategoriesTable, ({many}) => ({
-	foodsTables: many(foodsTable),
 }));
