@@ -65,7 +65,12 @@ export const AddButton = () => {
           </div>
         </div>
         <DialogFooter className="sm:justify-end">
-          <Button type="button" onClick={handleAddCategory} disabled={loading}>
+          <Button
+            type="button"
+            variant={"outline"}
+            onClick={handleAddCategory}
+            disabled={loading}
+          >
             {loading ? "Adding..." : "Add category"}
           </Button>
         </DialogFooter>
