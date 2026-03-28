@@ -1,8 +1,8 @@
 "use client";
 
+import { Category } from "@/lib/types";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Category } from "@/lib/types";
 
 const pillBase =
   "inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors";
