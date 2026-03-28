@@ -10,28 +10,40 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { LayoutGrid, ShoppingBag } from "lucide-react";
+import { LayoutGrid, Truck } from "lucide-react";
 
 const navItems = [
-  { title: "Food menu", icon: LayoutGrid, href: "/menu" },
-  { title: "Orders", icon: ShoppingBag, href: "/orders" },
+  { title: "Food menu", icon: LayoutGrid, href: "/dashboard/menu" },
+  { title: "Orders", icon: Truck, href: "/dashboard/order" },
 ];
 
 export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar className="border-r border-gray-100 bg-white w-52">
+    <Sidebar className="w-52 border-r border-neutral-100 bg-white">
       <SidebarHeader className="px-5 py-5">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-red-500 text-white text-lg shrink-0">
-            🍽️
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-red-500 text-white">
+            <svg
+              viewBox="0 0 24 24"
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              <path d="M7 11h10v8a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-8z" />
+              <path d="M5 11V9a7 7 0 0 1 14 0v2" />
+            </svg>
           </div>
           <div className="leading-tight">
-            <p className="text-[15px] font-bold text-gray-900 leading-none">
+            <p className="text-[15px] font-bold leading-none text-neutral-900">
               NomNom
             </p>
-            <p className="text-[11px] text-gray-400 mt-0.5">Swift delivery</p>
+            <p className="mt-0.5 text-[11px] text-neutral-400">Swift delivery</p>
           </div>
         </div>
       </SidebarHeader>
@@ -45,17 +57,16 @@ export function AppSidebar() {
                 <Link
                   href={item.href}
                   className={`
-                    flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium w-full
-                    transition-colors
+                    flex w-full items-center gap-3 rounded-full px-3 py-2.5 text-sm font-medium transition-colors
                     ${
                       isActive
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+                        ? "bg-neutral-900 text-white"
+                        : "text-neutral-900 hover:bg-neutral-100"
                     }
                   `}
                 >
                   <item.icon
-                    className={`h-4 w-4 shrink-0 ${isActive ? "text-white" : "text-gray-400"}`}
+                    className={`h-4 w-4 shrink-0 ${isActive ? "text-white" : "text-neutral-400"}`}
                   />
                   <span>{item.title}</span>
                 </Link>

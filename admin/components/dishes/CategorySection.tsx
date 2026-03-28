@@ -9,10 +9,9 @@ type CategorySectionProps = {
 
 export const CategorySection = ({ id, name, foods }: CategorySectionProps) => {
   return (
-    <section className="bg-white rounded-2xl p-6 shadow-sm">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">
-        {name}
-        <span className="text-gray-400 font-normal">({foods.length})</span>
+    <section className="rounded-[1.25rem] bg-white p-6 shadow-[0_2px_16px_-4px_rgba(0,0,0,0.08)]">
+      <h2 className="mb-5 text-lg font-bold text-neutral-900">
+        {name} ({foods.length})
       </h2>
       <DishGrid id={id} categoryName={name} foods={foods} />
     </section>

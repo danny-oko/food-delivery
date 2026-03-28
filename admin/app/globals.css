@@ -20,7 +20,5 @@
 }
 
 body {
-  /* background: var(--background); */
-  /* color: var(--foreground); */
-  font-family: "Inter";
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
 }

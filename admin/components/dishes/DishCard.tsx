@@ -1,12 +1,9 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { FoodType } from "@/lib/types";
 import { DeleteButton } from "./DeleteButton";
 import { EditButton } from "./EditButton";
-import { Pencil } from "lucide-react";
-import { foodsService } from "@/lib/foods.servies";
 
 type DishCardProps = Pick<
   FoodType,
@@ -15,14 +12,16 @@ type DishCardProps = Pick<
 
 const DishCard = ({ id, name, price, img, overview }: DishCardProps) => {
   return (
-    <Card className="overflow-hidden rounded-3xl shadow-sm border border-gray-100">
-      <div className="relative p-2">
+    <Card className="group relative gap-0 overflow-hidden rounded-[1.25rem] border border-neutral-100 bg-white p-0 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.06)] ring-0">
+      <div className="relative">
         <img
           src={img || `https://picsum.photos/seed/${id}/400/300`}
           alt={name}
-          className="w-full h-36 object-cover rounded-xl"
+          className="h-40 w-full object-cover"
         />
-        <DeleteButton foodId={id} foodName={name} />
+        <div className="absolute left-3 top-3 z-10 opacity-0 transition-opacity group-hover:opacity-100">
+          <DeleteButton foodId={id} foodName={name} />
+        </div>
         <EditButton
           id={id}
           name={name}
@@ -34,12 +33,16 @@ const DishCard = ({ id, name, price, img, overview }: DishCardProps) => {
           updatedAt={null}
         />
       </div>
-      <CardContent className="px-4 pb-5 pt-2">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-lg font-bold text-red-500">{name}</span>
-          <span className="text-lg font-semibold text-gray-900">${price}</span>
+      <CardContent className="px-4 pb-4 pt-3">
+        <div className="mb-1.5 flex items-start justify-between gap-2">
+          <span className="line-clamp-2 text-base font-bold leading-snug text-red-500">
+            {name}
+          </span>
+          <span className="shrink-0 text-base font-semibold text-neutral-900">
+            ${price}
+          </span>
         </div>
-        <p className="text-sm text-gray-600 leading-relaxed">
+        <p className="line-clamp-3 text-xs leading-relaxed text-neutral-400">
           {overview ?? "No description available"}
         </p>
       </CardContent>

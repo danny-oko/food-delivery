@@ -53,9 +53,9 @@ export function DeleteButton({
       <DialogTrigger asChild>
         <Button
           size="icon"
-          className="absolute bottom-5 left-5 rounded-full bg-white hover:bg-gray-100 h-12 w-12 shadow-md bg-red-500"
+          className="h-9 w-9 rounded-full bg-red-500 shadow-md hover:bg-red-600"
         >
-          <Trash className="h-5 w-5 text-white" />
+          <Trash className="h-4 w-4 text-white" />
         </Button>
       </DialogTrigger>
 

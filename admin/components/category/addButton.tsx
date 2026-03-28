@@ -44,8 +44,12 @@ export const AddButton = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="w-10 h-10 rounded-full bg-red-500 hover:bg-red-600 transition-colors flex items-center justify-center text-white text-xl font-light shadow-sm">
-          <Plus size={16} />
+        <button
+          type="button"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500 text-white shadow-sm transition-colors hover:bg-red-600"
+          aria-label="Add category"
+        >
+          <Plus className="h-4 w-4" strokeWidth={2.5} />
         </button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md bg-white">

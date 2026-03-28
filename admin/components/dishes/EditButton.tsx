@@ -67,14 +67,15 @@ export const EditButton = ({
       setLoading(false);
     }
   };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           size="icon"
-          className="absolute bottom-5 right-5 rounded-full bg-white hover:bg-gray-100 h-12 w-12 shadow-md"
+          className="absolute bottom-3 right-3 z-10 h-9 w-9 rounded-full border border-neutral-100/90 bg-white shadow-md hover:bg-neutral-50"
         >
-          <Pencil className="h-5 w-5 text-red-500" />
+          <Pencil className="h-4 w-4 text-red-500" />
         </Button>
       </DialogTrigger>
 
@@ -99,7 +100,7 @@ export const EditButton = ({
               </Label>
               <Input
                 id="foodName"
-                name="name" // ← must match formData key
+                name="name"
                 value={formData.name}
                 placeholder="Name"
                 type="text"
