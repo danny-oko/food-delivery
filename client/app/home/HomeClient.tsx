@@ -1,13 +1,13 @@
 import React from "react";
-import Navbar from "../components/widgets/navbar";
-import Footer from "../components/widgets/footer";
-import HeroSection from "@/components/hero-section/HeroSection";
+import Navbar from "../widgets/navbar";
+import Footer from "../widgets/footer";
+import { Hero } from "../_components/hero/hero";
 
 const HomeClient = () => {
   return (
     <div>
       <Navbar />
-      <HeroSection />
+      <Hero />
       <Footer />
     </div>
   );
