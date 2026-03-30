@@ -17,6 +17,6 @@ export const usersTable = sqliteTable("users_table", {
   tel: text("tel"),
 });
 
-export const userRelations = relations(usersTable, ({ many }) => ({
-  orders: many(foodOrderTable),
+export const userRelations = relations(usersTable, ({ one, many }) => ({
+  orders: one(foodOrderTable),
 }));

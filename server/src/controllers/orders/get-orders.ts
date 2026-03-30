@@ -8,16 +8,23 @@ export const getOrders = async (c: Context) => {
 
     const ordersFound = await db.query.foodOrderTable.findMany({
       with: {
-        user: true,
-        foodOrderItem: {
+        user: {
           with: {
-            food: true,
+            orders: {
+              with: {
+                items: {
+                  with: {
+                    food: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
     });
 
-    return c.json({ message: "Success!", orders_found: ordersFound }, 200);
+    return c.json({ orders: ordersFound }, 200);
   } catch (error: any) {
     return c.json({ error: error.message }, 500);
   }

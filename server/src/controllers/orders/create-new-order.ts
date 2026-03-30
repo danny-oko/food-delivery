@@ -26,12 +26,12 @@ export const createNewOrder = async (c: Context) => {
     const [newOrder] = await db
       .insert(foodOrderTable)
       .values({
-        totalPrice: totalPriceNumber.toString(),
+        totalAmount: totalPriceNumber,
         userId: userId,
       })
       .returning();
 
-    return c.json({ msg: "Success", order: newOrder }, 201);
+    return c.json({ msg: "Success", order: newOrder, items: orderItems }, 201);
   } catch (error: any) {
     return c.json({ error: error.message }, 500);
   }

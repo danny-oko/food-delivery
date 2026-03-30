@@ -6,7 +6,9 @@ import { foodOrderItems } from "./foodOrderItem";
 export const foodOrderTable = sqliteTable("food_order_table", {
   id: int("id").primaryKey({ autoIncrement: true }),
   userId: int("user_id").references(() => usersTable.id),
-  status: text("status").default("PENDING"),
+  status: text("status", {
+    enum: ["PENDING", "CANCELED", "DELIVERED"],
+  }).default("PENDING"),
   totalAmount: int("total_amount"),
   createdAt: int("created_at", { mode: "timestamp" }).$defaultFn(
     () => new Date(),

@@ -39,3 +39,27 @@ export type UpdateFoodPayload = {
   overview: string;
   categoryId: string | number;
 };
+
+export type User = {
+  id: number;
+  role: string;
+  name: string;
+  email: string;
+  password: string;
+  age: number;
+  tel: string;
+};
+
+export type Order = {
+  id: number;
+  userId: number;
+  status: "PENDING" | "CANCELED" | "DELIVERED";
+  totalAmount: number;
+  createdAt: string;
+  user: User;
+  items: FoodType[];
+};
+
+export type OrdersResponse = {
+  orders: Order[];
+};
