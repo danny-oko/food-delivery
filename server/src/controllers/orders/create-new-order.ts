@@ -1,7 +1,7 @@
 import { Context } from "hono";
 import { getDb } from "../../lib/db";
 import { OrderType } from "../../lib/types";
-import { foodOrderTable } from "../../db/schema";
+import { foodOrderItems, foodOrderTable } from "../../db/schema";
 
 export const createNewOrder = async (c: Context) => {
   try {
@@ -11,6 +11,7 @@ export const createNewOrder = async (c: Context) => {
     const userId = Number(user.id);
 
     const findFoodIds = orderItems.map((item) => item.foodId);
+
     const findFoodsById = await db.query.foodsTable.findMany({
       where: (foods, { inArray }) => inArray(foods.id, findFoodIds),
     });
@@ -31,7 +32,16 @@ export const createNewOrder = async (c: Context) => {
       })
       .returning();
 
-    return c.json({ msg: "Success", order: newOrder, items: orderItems }, 201);
+    const [newOrderItem] = await db
+      .insert(foodOrderItems)
+      .values({
+      // nam
+      })
+      .returning();
+
+    console.log(newOrderItem);
+
+    return c.json({ msg: "Success", order: newOrder, order_items: "hi" }, 201);
   } catch (error: any) {
     return c.json({ error: error.message }, 500);
   }

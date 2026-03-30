@@ -1,6 +1,5 @@
 import { Context } from "hono";
 import { getDb } from "../../lib/db";
-import { foodOrderTable } from "../../db/schema";
 
 export const getOrders = async (c: Context) => {
   try {
