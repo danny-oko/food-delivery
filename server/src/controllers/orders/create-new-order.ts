@@ -32,16 +32,23 @@ export const createNewOrder = async (c: Context) => {
       })
       .returning();
 
-    const [newOrderItem] = await db
+    const orderItemsToInsert = orderItems.map((item) => {
+      const foodData = findFoodsById.find((f) => f.id === item.foodId);
+      return {
+        foodOrderId: newOrder.id,
+        foodId: item.foodId,
+        quantity: item.quantity,
+      };
+    });
+    const newOrderItems = await db
       .insert(foodOrderItems)
-      .values({
-      // nam
-      })
+      .values(orderItemsToInsert)
       .returning();
 
-    console.log(newOrderItem);
-
-    return c.json({ msg: "Success", order: newOrder, order_items: "hi" }, 201);
+    return c.json(
+      { msg: "Success", order: newOrder, order_items: newOrderItems },
+      201,
+    );
   } catch (error: any) {
     return c.json({ error: error.message }, 500);
   }
