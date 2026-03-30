@@ -7,17 +7,10 @@ export const getOrders = async (c: Context) => {
 
     const ordersFound = await db.query.foodOrderTable.findMany({
       with: {
-        user: {
+        user: true,
+        items: {
           with: {
-            orders: {
-              with: {
-                items: {
-                  with: {
-                    food: true,
-                  },
-                },
-              },
-            },
+            food: true,
           },
         },
       },

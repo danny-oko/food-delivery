@@ -29,7 +29,7 @@ export type Categories = {
 
 export type SelectorProps = {
   defaultValue?: string;
-  onValueChange: (value: string) => void; // ← lift state up to EditButton
+  onValueChange: (value: string) => void;
 };
 
 export type UpdateFoodPayload = {
@@ -40,26 +40,46 @@ export type UpdateFoodPayload = {
   categoryId: string | number;
 };
 
+export type Order = {
+  id: number;
+  userId: number;
+  status: "PENDING" | "DELIVERED" | "CANCELED";
+  totalAmount: number;
+  createdAt: string;
+  user: User;
+  items: OrderItems[];
+};
+
 export type User = {
   id: number;
-  role: string;
+  role: "ADMIN" | "USER";
   name: string;
   email: string;
   password: string;
   age: number;
   tel: string;
+  items: OrderItems[];
 };
 
-export type Order = {
+export type OrderItems = {
   id: number;
-  userId: number;
+  quantity: number;
+  foodId: number;
+  foodOrderId: number;
+  food: FoodType[];
+};
+
+export type MappedOrderItem = {
+  foodName: string;
+  quantity: number;
+  price: string;
+};
+
+export type MappedOrder = {
+  id: number;
   status: "PENDING" | "CANCELED" | "DELIVERED";
+  userEmail: string;
   totalAmount: number;
   createdAt: string;
-  user: User;
-  items: FoodType[];
-};
-
-export type OrdersResponse = {
-  orders: Order[];
+  items: MappedOrderItem[];
 };

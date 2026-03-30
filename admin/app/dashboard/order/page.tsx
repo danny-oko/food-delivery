@@ -1,40 +1,33 @@
-import { FoodType, Order, OrdersResponse } from "@/lib/types";
+import { ordersService } from "@/lib/order.services";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
-import { ordersService } from "@/lib/order.services";
+import { MappedOrder, Order } from "@/lib/types";
 
-type MappedOrder = {
-  id: number;
-  userEmail: string;
-  foods: FoodType[];
-  date: number;
-  totalAmount: number;
-  status: string;
-};
-
-// userId: number;
-
-async function getData(): Promise<any> {
+async function getData(): Promise<MappedOrder[]> {
   const { getAllOrders } = ordersService();
   const data = await getAllOrders();
-  const res = await data.json();
-  return res;
-  //   return data.orders.map((order: Order) => ({
-  //     id: order.id,
-  //     userEmail: order.user.email,
-  //     totalAmount: order.totalAmount,
-  //     status: order.status,
-  //     userId: order.userId,
-  //     items: order.items,
-  //   }));
-}
 
+  return data.orders.map((order: Order) => ({
+    id: order.id,
+    status: order.status,
+    userEmail: order.user.email,
+    totalAmount: order.totalAmount,
+    createdAt: order.createdAt,
+    items: order.items.map((item) => {
+      const food = Array.isArray(item.food) ? item.food[0] : item.food;
+      return {
+        foodName: food?.name ?? "Food",
+        quantity: item.quantity,
+        price: food?.price ?? "0",
+      };
+    }),
+  }));
+}
 export default async function DemoPage() {
   const data = await getData();
-  console.log(data);
-  return;
+
   return (
-    <div className="container mx-auto py-10">
+    <div className="mx-auto w-full max-w-[1240px] px-6 py-6">
       <DataTable columns={columns} data={data} />
     </div>
   );

@@ -1,19 +1,90 @@
 "use client";
 
-import { Order } from "@/lib/types";
+import { MappedOrder } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
 
-export const columns: ColumnDef<Order>[] = [
+const formatCurrency = (amount: number) =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(amount);
+
+const formatDate = (date: string) => {
+  const parsed = new Date(date);
+  if (Number.isNaN(parsed.getTime())) return date;
+  return parsed.toLocaleDateString("en-CA");
+};
+
+const getFoodLabel = (items: MappedOrder["items"]) => {
+  if (!items.length) return "-";
+  if (items.length === 1) return `${items[0].foodName} x${items[0].quantity}`;
+  return `${items.length} foods`;
+};
+
+export const columns: ColumnDef<MappedOrder>[] = [
   {
-    accessorKey: "status",
-    header: "Status",
+    id: "select",
+    header: () => (
+      <input
+        type="checkbox"
+        aria-label="Select all orders"
+        className="size-4 cursor-pointer rounded border border-neutral-300"
+      />
+    ),
+    cell: () => (
+      <input
+        type="checkbox"
+        aria-label="Select order"
+        className="size-4 cursor-pointer rounded border border-neutral-300"
+      />
+    ),
+  },
+  {
+    accessorKey: "id",
+    header: "№",
   },
   {
     accessorKey: "userEmail",
-    header: "Email",
+    header: "Customer",
+  },
+  {
+    id: "food",
+    header: "Food",
+    cell: ({ row }) => (
+      <span className="text-neutral-700">{getFoodLabel(row.original.items)}</span>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Date",
+    cell: ({ row }) => formatDate(row.original.createdAt),
   },
   {
     accessorKey: "totalAmount",
-    header: "Amount",
+    header: "Total",
+    cell: ({ row }) => formatCurrency(row.original.totalAmount),
+  },
+  {
+    id: "deliveryAddress",
+    header: "Delivery Address",
+    cell: () => <span className="text-neutral-400">-</span>,
+  },
+  {
+    accessorKey: "status",
+    header: "Delivery state",
+    cell: ({ row }) => {
+      const stateText =
+        row.original.status === "PENDING"
+          ? "Pending"
+          : row.original.status === "DELIVERED"
+            ? "Delivered"
+            : "Cancelled";
+
+      return (
+        <span className="inline-flex h-8 min-w-[96px] items-center justify-center rounded-full border border-neutral-200 bg-white px-3 text-xs font-medium text-neutral-700">
+          {stateText}
+        </span>
+      );
+    },
   },
 ];
