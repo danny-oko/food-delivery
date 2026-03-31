@@ -1,10 +1,12 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { register } from "@/lib/auth/register";
+import { logIn } from "@/lib/auth/logIn";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export const Register = () => {
+export const Login = () => {
   const [credentials, setCredentials] = useState<{
     email: string;
     password: string;
@@ -12,6 +14,8 @@ export const Register = () => {
     email: "",
     password: "",
   });
+
+  const router = useRouter();
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -21,10 +25,8 @@ export const Register = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
     try {
-      const res = await register(credentials);
-      console.log(res);
+      const res = await logIn(credentials);
     } catch (error) {
       console.log(error);
     }
@@ -39,7 +41,6 @@ export const Register = () => {
         value={credentials.email}
         onChange={handleChange}
       />
-
       <Input
         type="password"
         placeholder="password"
@@ -47,16 +48,8 @@ export const Register = () => {
         value={credentials.password}
         onChange={handleChange}
       />
-
-      <Input
-        type="password"
-        placeholder="password"
-        name="confrimPassword"
-        value={credentials.password}
-        onChange={handleChange}
-      />
-
-      <Button type="submit">Sign Up</Button>
+      <Button type="submit">Sign In</Button>
+      <a onClick={() => router.push("/auth/register")}>Don't have account?</a>
     </form>
   );
 };
