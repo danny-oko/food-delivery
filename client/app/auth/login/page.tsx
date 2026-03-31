@@ -8,6 +8,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Login() {
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const [credentials, setCredentials] = useState<{
     email: string;
     password: string;
@@ -17,7 +20,6 @@ export default function Login() {
   });
 
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -29,10 +31,13 @@ export default function Login() {
     event.preventDefault();
     setError(null);
     try {
+      setLoading(true);
       await logIn(credentials);
       router.push("/");
     } catch {
-      setError("Unable to log in. Please check your email and password.");
+      setError("Invalid email or password!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,17 +91,18 @@ export default function Login() {
 
             <Button
               type="submit"
-              className="h-11 w-full rounded-md bg-zinc-900 text-white hover:bg-zinc-800"
+              disabled={loading}
+              className="h-11 w-full rounded-md bg-zinc-900 text-white hover:bg-zinc-800 cursor-pointer"
             >
               Let&apos;s Go
             </Button>
 
             <p className="pt-2 text-center text-sm text-zinc-500">
-              Don&apos;t have an account?{" "}
+              Don't have an account?{" "}
               <button
                 type="button"
                 onClick={() => router.push("/auth/register")}
-                className="font-medium text-blue-600 hover:text-blue-700"
+                className="font-medium text-blue-600 hover:text-blue-700 cursor-pointer"
               >
                 Sign up
               </button>

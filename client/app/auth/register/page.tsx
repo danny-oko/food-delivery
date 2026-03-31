@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { register } from "@/lib/auth/register";
@@ -26,6 +27,7 @@ export default function Register() {
     age: "",
   });
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -41,6 +43,7 @@ export default function Register() {
     }
 
     try {
+      setLoading(true);
       await register({
         name: form.name,
         email: form.email,
@@ -51,6 +54,8 @@ export default function Register() {
       router.push("/");
     } catch (err: any) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -132,12 +137,13 @@ export default function Register() {
 
             <Button
               type="submit"
-              className="mt-1 h-11 w-full rounded-md bg-zinc-900 text-white hover:bg-zinc-800"
+              className="mt-1 h-11 w-full rounded-md bg-zinc-900 text-white hover:bg-zinc-800 cursor-pointer"
+              disabled={loading}
             >
               Create account
             </Button>
 
-            <p className="pt-2 text-center text-sm text-zinc-500">
+            <p className="pt-2 text-center text-sm text-zinc-500 cursor-pointer">
               Already have an account?{" "}
               <button
                 type="button"

@@ -1,14 +1,14 @@
-import { Context } from "hono";
-import { getDb } from "../../../lib/db";
-import { usersTable } from "../../../db/schema";
 import bcrypt from "bcryptjs";
+import { Context } from "hono";
 import { sign } from "hono/jwt";
+import { usersTable } from "../../../db/schema";
+import { getDb } from "../../../lib/db";
 
 export const createUser = async (c: Context) => {
   try {
     const body = await c.req.json().catch(() => null);
 
-    if (!body) return c.json({ message: "Invalid JSON body" }, 400);
+    if (!body) return c.json({ message: "All fields are required!" }, 400);
 
     const { role, name, email, password, age, tel } = body;
 
@@ -59,7 +59,7 @@ export const createUser = async (c: Context) => {
       201,
     );
   } catch (error: any) {
-    console.error(error);
+    // console.error(error);
 
     const isDuplicate = error.message?.includes("UNIQUE constraint failed");
 
