@@ -27,6 +27,7 @@ export const Login = () => {
     event.preventDefault();
     try {
       const res = await logIn(credentials);
+      router.push("/");
     } catch (error) {
       console.log(error);
     }
