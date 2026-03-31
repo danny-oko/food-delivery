@@ -11,7 +11,10 @@ export const createUser = async (c: Context) => {
 
     const { role, name, email, password, age, tel } = body;
 
-    if (!name || !email || !password || !tel) {
+    // if (!name || !email || !password || !tel) {
+    //   return c.json({ message: "All fields are required!" }, 400);
+    // }
+    if (!email || !password) {
       return c.json({ message: "All fields are required!" }, 400);
     }
 
@@ -26,8 +29,8 @@ export const createUser = async (c: Context) => {
         role: role || "USER",
         email: normalizedEmail,
         password: hashedPassword,
-        age: age ? Number(age) : null,
-        tel,
+        // age: age ? Number(age) : null,
+        // tel,
       })
       .returning({
         id: usersTable.id,
