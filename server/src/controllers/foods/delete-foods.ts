@@ -15,7 +15,7 @@ export const deleteFood = async (c: Context<{ Bindings: Bindings }>) => {
       .returning();
 
     console.log(res);
-    
+
     if (!res.length) {
       return c.json({ error: "Food not found" }, 404);
     }
