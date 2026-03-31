@@ -1,11 +1,11 @@
-import { HeroCarousel } from "@/components/hero/heroCarouse";
-import { foodsService } from "@/lib/foods.services";
-import { stringify } from "querystring";
-
-export const Hero = async () => {
-  const { getAllCategories } = foodsService();
-  const { results } = await getAllCategories();
-  // console.log(results);
-
-  return <HeroCarousel categories={results} />;
+export const Hero = () => {
+  return (
+    <div className="w-full h-[60vh]">
+      <img
+        src="/images/hero_bg.png"
+        alt="Hero"
+        className="w-full h-full object-cover"
+      />
+    </div>
+  );
 };
