@@ -4,7 +4,6 @@ import { usersTable } from "../../../../db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { sign } from "hono/jwt";
-import { User } from "../../../../lib/types";
 
 export const userLogIn = async (c: Context) => {
   try {

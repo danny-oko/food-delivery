@@ -10,10 +10,14 @@ import { adminAuthMiddleWare } from "../../middleware/admin-middleware";
 
 const userRoutes = new Hono<{ Bindings: Bindings }>();
 
-userRoutes.get("/", adminAuthMiddleWare, getUsers);
-userRoutes.get(":id", adminAuthMiddleWare, getUsersById);
-userRoutes.put(":id", adminAuthMiddleWare, updateUser);
-userRoutes.delete(":id", adminAuthMiddleWare, deleteUsers);
+// userRoutes.get("/", adminAuthMiddleWare, getUsers);
+// userRoutes.get(":id", adminAuthMiddleWare, getUsersById);
+// userRoutes.put(":id", adminAuthMiddleWare, updateUser);
+// userRoutes.delete(":id", adminAuthMiddleWare, deleteUsers);
+userRoutes.get("/",  getUsers);
+userRoutes.get(":id",  getUsersById);
+userRoutes.put(":id",  updateUser);
+userRoutes.delete(":id",  deleteUsers);
 
 // user login || register
 userRoutes.post("/", createUser);

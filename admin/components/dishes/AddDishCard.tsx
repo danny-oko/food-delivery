@@ -68,15 +68,15 @@ const AddDishCard = ({ category, id }: { category: string; id: string }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Card className="flex min-h-[280px] cursor-pointer flex-col items-center justify-center gap-3 rounded-[1.25rem] border-2 border-dashed border-red-500 bg-white shadow-none transition-colors hover:bg-red-50/40">
+        <Card className="border-2 border-dashed border-red-300 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-red-50 transition-colors min-h-[220px] shadow-none">
           <Button
             size="icon"
-            className="h-10 w-10 rounded-full bg-red-500 hover:bg-red-600"
+            className="rounded-full bg-red-500 hover:bg-red-600 h-10 w-10"
             type="button"
           >
-            <Plus className="h-5 w-5 text-white" strokeWidth={2.5} />
+            <Plus className="h-5 w-5" />
           </Button>
-          <p className="max-w-[11rem] px-2 text-center text-sm text-neutral-500">
+          <p className="text-sm text-gray-500 text-center">
             Add new Dish to {category}
           </p>
         </Card>

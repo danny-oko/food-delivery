@@ -2,7 +2,11 @@ import React from "react";
 import HomeClient from "./home/HomeClient";
 
 const Home = () => {
-  return <HomeClient />;
+  return (
+    <div>
+      <HomeClient />
+    </div>
+  );
 };
 
 export default Home;
