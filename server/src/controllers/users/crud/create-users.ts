@@ -7,14 +7,12 @@ import { sign } from "hono/jwt";
 export const createUser = async (c: Context) => {
   try {
     const body = await c.req.json().catch(() => null);
+
     if (!body) return c.json({ message: "Invalid JSON body" }, 400);
 
     const { role, name, email, password, age, tel } = body;
 
-    // if (!name || !email || !password || !tel) {
-    //   return c.json({ message: "All fields are required!" }, 400);
-    // }
-    if (!email || !password) {
+    if (!name || !email || !password || !tel) {
       return c.json({ message: "All fields are required!" }, 400);
     }
 
@@ -29,8 +27,8 @@ export const createUser = async (c: Context) => {
         role: role || "USER",
         email: normalizedEmail,
         password: hashedPassword,
-        // age: age ? Number(age) : null,
-        // tel,
+        age: age ? Number(age) : null,
+        tel,
       })
       .returning({
         id: usersTable.id,

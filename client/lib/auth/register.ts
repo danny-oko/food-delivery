@@ -1,20 +1,35 @@
-import api from "../api";
-
-type Credentials = {
+type RegisterCredentials = {
+  name: string;
   email: string;
   password: string;
+  tel: string;
+  age?: number;
 };
 
-type AccessToken = {
+type RegisterRes = {
+  message: string;
   token: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    tel: string;
+    age: number | null;
+  };
 };
 
-export const register = async (credentials: Credentials) => {
-  const res = await api.post("/users", credentials);
+export const register = async (credentials: RegisterCredentials) => {
+  const res = await fetch("/api/users/auth/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(credentials),
+  });
 
-  const data = res.data.json() as AccessToken;
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || "Registration failed");
+  }
 
-  console.log("register data:", data);
-
-  return data;
+  return (await res.json()) as RegisterRes;
 };

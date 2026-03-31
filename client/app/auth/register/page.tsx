@@ -1,67 +1,109 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { register } from "@/lib/auth/register";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const [credentials, setCredentials] = useState<{
+type RegisterForm = {
+  name: string;
   email: string;
   password: string;
-}>({
-  email: "",
-  password: "",
-});
-
-const handleChange = (
-  event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-) => {
-  setCredentials({ ...credentials, [event.target.name]: event.target.value });
+  confirmPassword: string;
+  tel: string;
+  age: string;
 };
 
-const handleSubmit = async (event: React.FormEvent) => {
-  event.preventDefault();
+export default function Register() {
+  const router = useRouter();
+  const [form, setForm] = useState<RegisterForm>({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    tel: "",
+    age: "",
+  });
+  const [error, setError] = useState<string | null>(null);
 
-  try {
-    const res = await register(credentials);
-    console.log(res);
-  } catch (error) {
-    console.log(error);
-  }
-};
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [event.target.name]: event.target.value });
+  };
 
-const page = () => {
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setError(null);
+
+    if (form.password !== form.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      await register({
+        name: form.name,
+        email: form.email,
+        password: form.password,
+        tel: form.tel,
+        age: form.age ? Number(form.age) : undefined,
+      });
+      router.push("/");
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="email"
-          placeholder="email"
-          name="email"
-          value={credentials.email}
-          onChange={handleChange}
-        />
-
-        <Input
-          type="password"
-          placeholder="password"
-          name="password"
-          value={credentials.password}
-          onChange={handleChange}
-        />
-
-        <Input
-          type="password"
-          placeholder="password"
-          name="confrimPassword"
-          value={credentials.password}
-          onChange={handleChange}
-        />
-
-        <Button type="submit">Sign Up</Button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      {error && <p>{error}</p>}
+      <Input
+        type="text"
+        placeholder="Name"
+        name="name"
+        value={form.name}
+        onChange={handleChange}
+        required
+      />
+      <Input
+        type="email"
+        placeholder="Email"
+        name="email"
+        value={form.email}
+        onChange={handleChange}
+        required
+      />
+      <Input
+        type="tel"
+        placeholder="Phone number"
+        name="tel"
+        value={form.tel}
+        onChange={handleChange}
+        required
+      />
+      <Input
+        type="number"
+        placeholder="Age (optional)"
+        name="age"
+        value={form.age}
+        onChange={handleChange}
+      />
+      <Input
+        type="password"
+        placeholder="Password"
+        name="password"
+        value={form.password}
+        onChange={handleChange}
+        required
+      />
+      <Input
+        type="password"
+        placeholder="Confirm password"
+        name="confirmPassword"
+        value={form.confirmPassword}
+        onChange={handleChange}
+        required
+      />
+      <Button type="submit">Sign Up</Button>
+    </form>
   );
-};
-
-export default page;
+}
