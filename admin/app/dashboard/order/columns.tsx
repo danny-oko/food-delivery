@@ -1,5 +1,6 @@
 "use client";
 
+import { OrderStatus } from "@/components/orders/deliveryStatus";
 import { OrderedItems } from "@/components/orders/orderedFoods";
 import { MappedOrder } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
@@ -72,9 +73,12 @@ export const columns: ColumnDef<MappedOrder>[] = [
           : row.original.status === "DELIVERED"
             ? "Delivered"
             : "Cancelled";
+
+        const def = row.original.status; 
+      
       return (
         <span className="inline-flex h-8 min-w-[96px] items-center justify-center rounded-full border border-neutral-200 bg-white px-3 text-xs font-medium text-neutral-700">
-          {stateText}
+          <OrderStatus status={stateText} def={def} />
         </span>
       );
     },

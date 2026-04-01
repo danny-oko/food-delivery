@@ -16,6 +16,7 @@ async function getData(): Promise<MappedOrder[]> {
     items: order.items.map((item) => {
       const food = Array.isArray(item.food) ? item.food[0] : item.food;
       return {
+        id: food?.id,
         foodName: food?.name ?? "Food",
         quantity: item.quantity,
         price: food?.price ?? "0",
