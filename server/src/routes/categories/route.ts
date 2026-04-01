@@ -5,13 +5,14 @@ import { updateCategory } from "../../controllers/food-categories/update-Categor
 import { getCategories } from "../../controllers/food-categories/get-Categories";
 import { getCategoryById } from "../../controllers/food-categories/get-CategoryBy-Id";
 import { deleteCategory } from "../../controllers/food-categories/delete-categories";
+import { authMiddleware } from "../../middleware/user-auth-middleware";
 
 const categoriesRoute = new Hono<{ Bindings: Bindings }>();
 
 categoriesRoute.get("/", getCategories);
 categoriesRoute.get(":id", getCategoryById);
-categoriesRoute.put(":id", updateCategory);
-categoriesRoute.post("/", createCategory);
-categoriesRoute.delete(":id", deleteCategory);
+categoriesRoute.put(":id", authMiddleware, updateCategory);
+categoriesRoute.post("/", authMiddleware, createCategory);
+categoriesRoute.delete(":id", authMiddleware, deleteCategory);
 
 export default categoriesRoute;

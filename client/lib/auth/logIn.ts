@@ -12,7 +12,7 @@ export const logIn = async (credentials: Credentials) => {
 
   const data = (await res.json()) as AccessToken;
 
-  // console.log("login res:", data);
+  console.log("login res:", data);
 
   return data;
 };
