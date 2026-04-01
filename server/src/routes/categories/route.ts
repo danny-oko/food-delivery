@@ -11,8 +11,8 @@ const categoriesRoute = new Hono<{ Bindings: Bindings }>();
 
 categoriesRoute.get("/", getCategories);
 categoriesRoute.get(":id", getCategoryById);
-categoriesRoute.put(":id", authMiddleware, updateCategory);
-categoriesRoute.post("/", authMiddleware, createCategory);
-categoriesRoute.delete(":id", authMiddleware, deleteCategory);
+categoriesRoute.put(":id", updateCategory);
+categoriesRoute.post("/", createCategory);
+categoriesRoute.delete(":id", deleteCategory);
 
 export default categoriesRoute;

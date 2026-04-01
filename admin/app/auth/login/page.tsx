@@ -97,7 +97,7 @@ export default function Login() {
               Let&apos;s Go
             </Button>
 
-            <p className="pt-2 text-center text-sm text-zinc-500">
+            {/* <p className="pt-2 text-center text-sm text-zinc-500">
               Don't have an account?{" "}
               <button
                 type="button"
@@ -106,7 +106,7 @@ export default function Login() {
               >
                 Sign up
               </button>
-            </p>
+            </p> */}
           </form>
         </section>
 
