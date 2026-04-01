@@ -1,5 +1,6 @@
 "use client";
 
+import { OrderedItems } from "@/components/orders/orderedFoods";
 import { MappedOrder } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -13,12 +14,6 @@ const formatDate = (date: string) => {
   const parsed = new Date(date);
   if (Number.isNaN(parsed.getTime())) return date;
   return parsed.toLocaleDateString("en-CA");
-};
-
-const getFoodLabel = (items: MappedOrder["items"]) => {
-  if (!items.length) return "-";
-  if (items.length === 1) return `${items[0].foodName} x${items[0].quantity}`;
-  return `${items.length} foods`;
 };
 
 export const columns: ColumnDef<MappedOrder>[] = [
@@ -50,9 +45,7 @@ export const columns: ColumnDef<MappedOrder>[] = [
   {
     id: "food",
     header: "Food",
-    cell: ({ row }) => (
-      <span className="text-neutral-700">{getFoodLabel(row.original.items)}</span>
-    ),
+    cell: ({ row }) => <OrderedItems items={row.original.items} />,
   },
   {
     accessorKey: "createdAt",
@@ -79,7 +72,6 @@ export const columns: ColumnDef<MappedOrder>[] = [
           : row.original.status === "DELIVERED"
             ? "Delivered"
             : "Cancelled";
-
       return (
         <span className="inline-flex h-8 min-w-[96px] items-center justify-center rounded-full border border-neutral-200 bg-white px-3 text-xs font-medium text-neutral-700">
           {stateText}
