@@ -27,7 +27,7 @@ export default async function DemoPage() {
   const data = await getData();
 
   return (
-    <div className="mx-auto w-full max-w-[1240px] px-6 py-6">
+    <div className="mx-auto w-full max-w-[100%] pr-12 py-12">
       <DataTable columns={columns} data={data} />
     </div>
   );
