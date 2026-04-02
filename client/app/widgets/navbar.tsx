@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { MapPin, ShoppingCart, User } from "lucide-react";
+import { Cart } from "@/components/shoppingCart";
 
 const Navbar = () => {
   return (
@@ -30,9 +31,7 @@ const Navbar = () => {
           <span className="ml-1 text-zinc-400">›</span>
         </button>
 
-        <button className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-zinc-800">
-          <ShoppingCart size={20} />
-        </button>
+        <Cart />
 
         <button className="flex items-center justify-center w-10 h-10 rounded-full bg-[#E11D48] text-white">
           <User size={20} />
