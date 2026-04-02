@@ -1,4 +1,5 @@
 "use client";
+
 import { ShoppingCart, X } from "lucide-react";
 import {
   Sheet,
@@ -7,13 +8,32 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CardContext } from "@/context/cartContext";
 
 const SHIPPING = 0.99;
 
+// need help!
+
 export const Cart = () => {
+  // useEffect(() => {
+  //   async () => {
+  //     try {
+  //     } catch (error) {}
+  //   };
+  // });
+
   const { card } = useContext(CardContext);
+  // const foodCard = card.map((food) => {
+  //   return {
+  //     food: food.food,
+  //     quantity: food.quantity,
+  //   };
+  // });
+
+  // console.log("foodCard:", foodCard);
+
+  console.log("card on card sheet:", card);
   const [activeTab, setActiveTab] = useState<"cart" | "order">("cart");
 
   const itemsTotal = card.reduce(
@@ -21,6 +41,12 @@ export const Cart = () => {
     0,
   );
   const total = itemsTotal + SHIPPING;
+
+  const handleOrder = () => {
+    // const payload = {
+    // card.
+    // }
+  };
 
   return (
     <Sheet>
@@ -39,7 +65,6 @@ export const Cart = () => {
       </SheetTrigger>
 
       <SheetContent className="flex w-full flex-col gap-0 overflow-y-auto bg-[#2a2a2a] p-5 sm:max-w-md [&>button]:text-white">
-        {/* Header */}
         <SheetHeader className="mb-5">
           <SheetTitle className="flex items-center gap-2 text-white">
             <ShoppingCart className="h-5 w-5" />
@@ -47,7 +72,6 @@ export const Cart = () => {
           </SheetTitle>
         </SheetHeader>
 
-        {/* Tab switcher */}
         <div className="mb-5 flex rounded-full bg-white p-1">
           <button
             onClick={() => setActiveTab("cart")}
@@ -73,7 +97,6 @@ export const Cart = () => {
 
         {activeTab === "cart" && (
           <div className="flex flex-col gap-4">
-            {/* My cart card */}
             <div className="rounded-2xl bg-white p-4">
               <h2 className="mb-4 text-lg font-bold text-gray-900">My cart</h2>
 
@@ -89,14 +112,12 @@ export const Cart = () => {
                         <div className="my-4 border-t border-dashed border-gray-200" />
                       )}
                       <div className="flex gap-3">
-                        {/* Image */}
                         <img
                           src={item.food.img || ""}
                           alt={item.food.name}
                           className="h-24 w-24 flex-shrink-0 rounded-xl object-cover"
                         />
 
-                        {/* Info + controls */}
                         <div className="flex flex-1 flex-col justify-between">
                           <div className="flex items-start justify-between">
                             <div className="flex-1 pr-2">
@@ -107,7 +128,6 @@ export const Cart = () => {
                                 {item.food.overview}
                               </p>
                             </div>
-                            {/* Remove */}
                             <button
                               // onClick={() => removeFromCard(item.food.id)}
                               className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-red-400 text-red-400 transition-colors hover:bg-red-50"
@@ -117,7 +137,6 @@ export const Cart = () => {
                             </button>
                           </div>
 
-                          {/* Quantity + price */}
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                               <button
@@ -162,13 +181,11 @@ export const Cart = () => {
                 </div>
               )}
 
-              {/* Add food button */}
               <button className="mt-4 w-full rounded-full border border-red-400 py-3 text-sm font-semibold text-red-500 transition-colors hover:bg-red-50">
                 Add food
               </button>
             </div>
 
-            {/* Payment info card */}
             <div className="rounded-2xl bg-white p-4">
               <h2 className="mb-4 text-lg font-bold text-gray-900">
                 Payment info
@@ -195,7 +212,10 @@ export const Cart = () => {
                 </div>
               </div>
 
-              <button className="mt-4 w-full rounded-full bg-red-500 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-600 active:scale-[0.98]">
+              <button
+                className="mt-4 w-full rounded-full bg-red-500 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-600 active:scale-[0.98]"
+                onClick={handleOrder}
+              >
                 Checkout
               </button>
             </div>

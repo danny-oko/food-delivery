@@ -1,28 +1,40 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
-import { Plus, X } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger, DialogClose } from "./ui/dialog";
-import { FoodType } from "@/lib/types";
-import { useContext, useState } from "react";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 import { CardContext } from "@/context/cartContext";
+import { FoodType } from "@/lib/types";
+import { Plus, X } from "lucide-react";
+import { useContext, useState } from "react";
 
 export const PlusButton = ({ food }: { food: FoodType }) => {
-  const { addCard, card } = useContext(CardContext);
-
+  const [open, setOpen] = useState(false);
+  const { addCard } = useContext(CardContext);
   const [quantity, setQuantity] = useState(1);
+
   const increment = () => setQuantity((q) => q + 1);
   const decrement = () => setQuantity((q) => Math.max(1, q - 1));
-
   const totalPrice = (Number(food.price) * quantity).toFixed(2);
 
   const handleAddToCard = () => {
     addCard(food, quantity);
-    // localStorage.setItem("cardItems");
-    console.log("food added to cart successfully!!!!!!!");
+    setOpen(false);
   };
 
   return (
-    <Dialog onOpenChange={() => setQuantity(1)}>
+    <Dialog
+      open={open}
+      onOpenChange={(val) => {
+        setOpen(val);
+        setQuantity(1);
+      }}
+    >
       <DialogTrigger asChild>
         <Button
           aria-label="Add to cart"
@@ -33,7 +45,7 @@ export const PlusButton = ({ food }: { food: FoodType }) => {
       </DialogTrigger>
 
       <DialogContent className="!max-w-6xl sm:!max-w-6xl gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl [&>button]:hidden">
-        <div className="flex ">
+        <div className="flex">
           <div className="w-[48%] shrink-0 p-6">
             <img
               src={food.img || ""}
@@ -66,9 +78,9 @@ export const PlusButton = ({ food }: { food: FoodType }) => {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={decrement}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-xl font-light text-gray-600 transition-colors hover:bg-gray-100 disabled:opacity-40"
                     disabled={quantity <= 1}
                     aria-label="Decrease quantity"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-xl font-light text-gray-600 transition-colors hover:bg-gray-100 disabled:opacity-40"
                   >
                     −
                   </button>
@@ -77,8 +89,8 @@ export const PlusButton = ({ food }: { food: FoodType }) => {
                   </span>
                   <button
                     onClick={increment}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-800 bg-white text-xl font-light text-gray-800 transition-colors hover:bg-gray-100"
                     aria-label="Increase quantity"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-800 bg-white text-xl font-light text-gray-800 transition-colors hover:bg-gray-100"
                   >
                     +
                   </button>
@@ -86,7 +98,7 @@ export const PlusButton = ({ food }: { food: FoodType }) => {
               </div>
 
               <Button type="button" onClick={handleAddToCard}>
-                Add to Card
+                Add to Cart
               </Button>
             </div>
           </div>
