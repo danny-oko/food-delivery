@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { MapPin, ShoppingCart, User } from "lucide-react";
-import { Cart } from "@/components/shoppingCart";
+import { MapPin, User } from "lucide-react";
+import { Cart } from "@/components/cardSheet";
 
 const Navbar = () => {
   return (

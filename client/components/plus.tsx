@@ -3,15 +3,23 @@ import { Button } from "@/components/ui/button";
 import { Plus, X } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger, DialogClose } from "./ui/dialog";
 import { FoodType } from "@/lib/types";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CardContext } from "@/context/cartContext";
 
 export const PlusButton = ({ food }: { food: FoodType }) => {
-  const [quantity, setQuantity] = useState(1);
+  const { addCard, card } = useContext(CardContext);
 
+  const [quantity, setQuantity] = useState(1);
   const increment = () => setQuantity((q) => q + 1);
   const decrement = () => setQuantity((q) => Math.max(1, q - 1));
 
   const totalPrice = (Number(food.price) * quantity).toFixed(2);
+
+  const handleAddToCard = () => {
+    addCard(food, quantity);
+    // localStorage.setItem("cardItems");
+    console.log("food added to cart successfully!!!!!!!");
+  };
 
   return (
     <Dialog onOpenChange={() => setQuantity(1)}>
@@ -77,9 +85,9 @@ export const PlusButton = ({ food }: { food: FoodType }) => {
                 </div>
               </div>
 
-              <button className="w-full rounded-full bg-gray-900 py-4 text-base font-medium text-white transition-colors hover:bg-gray-700 active:scale-[0.98]">
-                Add to cart
-              </button>
+              <Button type="button" onClick={handleAddToCard}>
+                Add to Card
+              </Button>
             </div>
           </div>
         </div>
