@@ -10,7 +10,7 @@ export const DishCard = ({ food }: { food: FoodType }) => {
           alt={food.name}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
-        <PlusButton />
+        <PlusButton food={food} />
       </div>
 
       <div className="px-4 py-3">
