@@ -1,16 +1,22 @@
 import { Hono } from "hono";
-import { Bindings } from "./lib/types";
-import foodsRoute from "./routes/foods/route";
-import categoriesRoute from "./routes/categories/route";
-import userRoutes from "./routes/users/route";
-import foodOrderRoutes from "./routes/orders/route";
 import { cors } from "hono/cors";
+import { Bindings } from "./lib/types";
+import categoriesRoute from "./routes/categories/route";
+import foodsRoute from "./routes/foods/route";
+import foodOrderRoutes from "./routes/orders/route";
+import userRoutes from "./routes/users/route";
 
 const app = new Hono<{ Bindings: Bindings }>();
+
 app.use(
   "/*",
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://nom-nom-admin.vercel.app",
+      "https://nom-nom-client.vercel.app",
+    ],
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
   }),
