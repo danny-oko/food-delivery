@@ -1,7 +1,7 @@
 import { ordersService } from "@/lib/order.services";
+import { MappedOrder, Order } from "@/lib/types";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
-import { MappedOrder, Order } from "@/lib/types";
 
 async function getData(): Promise<MappedOrder[]> {
   const { getAllOrders } = ordersService();
@@ -28,7 +28,7 @@ export default async function DemoPage() {
   const data = await getData();
 
   return (
-    <div className="mx-auto w-full max-w-[100%] pr-12 py-12">
+    <div className="mx-auto w-full max-w-full pr-12 py-12">
       <DataTable columns={columns} data={data} />
     </div>
   );
