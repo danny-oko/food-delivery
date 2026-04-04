@@ -5,7 +5,7 @@ import type { Category } from "@/lib/types";
 export const Dishes = async () => {
   const { getAllCategories } = foodsService();
   const { results } = await getAllCategories();
-  // console.log(results);
+
   const foods = await results.filter(
     (category: Category) => category.foods.length > 0,
   );
@@ -18,7 +18,7 @@ export const Dishes = async () => {
             <h2 className="text-white text-xl font-semibold mb-4">
               {category.name}
             </h2>
-            <DishGrid foods={category.foods} />
+            <DishGrid key={category.id} id={category.id.toString()} categoryName={category.name} foods={category.foods} />
           </section>
         ))}
       </div>
