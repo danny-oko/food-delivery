@@ -12,7 +12,12 @@ export async function POST(request: Request) {
   const res = await api.post("/users/login", credentials);
   const data = res.data;
 
-  cookieStore.set("token", data.token);
+  cookieStore.set("token", data.token, {
+    path: "/",
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: false,
+  });
 
   return Response.json(data.token);
 }

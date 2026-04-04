@@ -1,5 +1,6 @@
 // lib/api.ts
 import axios from "axios";
+import { clearBrowserCookie, getBrowserCookie } from "./cookie-utils";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8787",
@@ -11,9 +12,8 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    // Read token from localStorage at request time (browser only)
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
+      const token = getBrowserCookie("token");
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -29,10 +29,9 @@ api.interceptors.response.use(
     const status = error.response?.status;
 
     if (status === 401) {
-      // Token expired or invalid — redirect to login
       if (typeof window !== "undefined") {
-        localStorage.removeItem("token");
-        window.location.href = "/login";
+        clearBrowserCookie("token");
+        window.location.href = "/";
       }
     }
 
