@@ -13,11 +13,11 @@ type DishCardProps = Pick<
 const DishCard = ({ id, name, price, img, overview }: DishCardProps) => {
   return (
     <Card className="group relative gap-0 overflow-hidden rounded-[1.25rem] border border-neutral-100 bg-white p-0 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.06)] ring-0">
-      <div className="relative">
+      <div className="relative p-4">
         <img
           src={img || `https://picsum.photos/seed/${id}/400/300`}
           alt={name}
-          className="h-40 w-full object-cover"
+          className="h-40 w-full object-cover rounded-xl"
         />
         <div className="absolute left-3 top-3 z-10 opacity-0 transition-opacity group-hover:opacity-100">
           <DeleteButton foodId={id} foodName={name} />
