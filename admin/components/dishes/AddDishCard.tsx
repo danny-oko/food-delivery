@@ -37,6 +37,10 @@ const AddDishCard = ({ category, id }: { category: string; id: string }) => {
     setFood({ ...food, [event.target.name]: event.target.value });
   };
 
+  const handleUpload = (url: string) => {
+    setFood((prev) => ({ ...prev, img: url }));
+  };
+
   const handleSubmit = async (e: any) => {
     setLoading(true);
     try {
@@ -149,13 +153,17 @@ const AddDishCard = ({ category, id }: { category: string; id: string }) => {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="img"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Food image URL
+                <Label className="text-sm font-medium text-gray-700">
+                  Food image
                 </Label>
-                <ClUpload />
+                <ClUpload onUpload={handleUpload} />
+                {food.img && (
+                  <img
+                    src={food.img}
+                    alt="Food preview"
+                    className="mt-2 h-24 w-24 rounded-lg object-cover border border-gray-200"
+                  />
+                )}
               </div>
 
               <div className="flex justify-end pt-1">
