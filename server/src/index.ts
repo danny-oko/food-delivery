@@ -16,6 +16,7 @@ app.use(
       "http://localhost:3001",
       "https://nom-nom-admin.vercel.app",
       "https://nom-nom-client.vercel.app",
+      "https://api.cloudinary.com/v1_1/doxmbmqjm/upload",
     ],
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
