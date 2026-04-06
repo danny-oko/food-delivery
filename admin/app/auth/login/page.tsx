@@ -53,7 +53,7 @@ export default function Login() {
             <div className="space-y-1">
               <h1 className="text-3xl font-semibold text-zinc-900">Log in</h1>
               <p className="text-sm text-zinc-500">
-                Log in to enjoy your favorite dishes.
+                Log in to manage your dishes.
               </p>
             </div>
 
