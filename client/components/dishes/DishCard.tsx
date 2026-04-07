@@ -4,11 +4,11 @@ import type { FoodType } from "@/lib/types";
 export const DishCard = ({ food }: { food: FoodType }) => {
   return (
     <div className="group cursor-pointer overflow-hidden rounded-3xl bg-white shadow-sm transition-shadow duration-200 hover:shadow-md">
-      <div className="relative aspect-4/3 overflow-hidden">
+      <div className="relative aspect-4/3 overflow-hidden p-4">
         <img
           src={food.img || ""}
           alt={food.name}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 rounded-xl"
         />
         <PlusButton food={food} />
       </div>
