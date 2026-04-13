@@ -5,7 +5,6 @@ import * as schema from "../db/schema";
 import { D1Database } from "@cloudflare/workers-types";
 
 export const getDrizzleDb = (d1: D1Database) => {
-  
   return drizzle(d1, { schema });
 };
 

@@ -8,7 +8,7 @@ export const DishCard = ({ food }: { food: FoodType }) => {
         <img
           src={food.img || ""}
           alt={food.name}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 rounded-xl"
+          className="h-full w-full object-cover transition-transform duration-300 rounded-xl"
         />
         <PlusButton food={food} />
       </div>
